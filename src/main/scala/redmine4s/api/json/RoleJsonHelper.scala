@@ -6,9 +6,9 @@ import redmine4s.api.model.Role
 
 object RoleJsonHelper extends BaseJsonHelper {
   implicit val roleReads: Reads[Role] = (
-    (__ \ "id").read[Long] ~
-      (__ \ "name").read[String] ~
-      (__ \ "inherited").readNullable[Boolean] ~
-      (__ \ "permissions").readNullable[Iterable[String]]
+    (__ \ 'id).read[Long] ~
+      (__ \ 'name).read[String] ~
+      (__ \ 'inherited).readNullable[Boolean] ~
+      (__ \ 'permissions).readNullable[Iterable[String]]
     ) (Role.apply _)
 }

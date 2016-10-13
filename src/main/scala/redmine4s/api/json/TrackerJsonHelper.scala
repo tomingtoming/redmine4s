@@ -6,7 +6,7 @@ import redmine4s.api.model.Tracker
 
 object TrackerJsonHelper extends BaseJsonHelper {
   implicit val trackerReads: Reads[Tracker] = (
-    (__ \ "id").read[Long] ~
-      (__ \ "name").read[String]
+    (__ \ 'id).read[Long] ~
+      (__ \ 'name).read[String]
     ) (Tracker.apply _)
 }
