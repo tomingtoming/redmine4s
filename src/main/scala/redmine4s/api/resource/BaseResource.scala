@@ -87,6 +87,9 @@ trait BaseResource {
         case 403 /*Forbidden*/ =>
           logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
           throw new ForbiddenException(response.getStatusLine.toString)
+        case 404 /*Not Found*/ =>
+          logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
+          throw new NotFoundException(response.getStatusLine.toString)
         case n =>
           logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
           throw new ResourceException(response.getStatusLine.toString)

@@ -40,9 +40,11 @@ sealed trait Project {
 
   def listIssueCategories: Iterable[IssueCategory] = redmine.listIssueCategories(this.id)
 
-  def listWiki(baseUrl: String): Iterable[Wiki] = redmine.listWikis(this.id)
+  def mainWiki(): Option[Wiki] = redmine.mainWiki(this.id)
 
-  def listNews(baseUrl: String): Iterable[News] = redmine.listNews(this.id)
+  def listWikis(): Iterable[Wiki] = redmine.listWikis(this.id)
+
+  def listNews(): Iterable[News] = redmine.listNews(this.id)
 }
 
 trait ProjectDetail extends Project {

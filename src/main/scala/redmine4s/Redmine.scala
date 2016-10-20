@@ -5,7 +5,8 @@ import redmine4s.api.resource._
 import redmine4s.conf.Configuration
 
 class Redmine(val configuration: Configuration)
-  extends IssueCategoryResource
+  extends AttachmentResource
+    with IssueCategoryResource
     with IssuePriorityResource
     with IssueResource
     with IssueStatusResource

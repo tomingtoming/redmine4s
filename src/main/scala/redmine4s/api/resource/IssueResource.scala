@@ -5,7 +5,9 @@ import redmine4s.api.model._
 
 trait IssueResource extends BaseResource {
   private def applyRedmineToIssue: PartialFunction[Issue, Issue] = {
-    case p: Issue => p.copy(redmine = redmine)
+    case p: Issue =>
+      val attachments = p.attachments.map(_.map(_.copy(redmine = redmine)))
+      p.copy(redmine = redmine, optionalFields = p.optionalFields.copy(attachments = attachments))
   }
 
   def listIssues(params: Map[String, String] = Map.empty): Iterable[Issue] = {

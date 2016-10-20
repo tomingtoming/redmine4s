@@ -11,6 +11,15 @@ trait WikiResource extends BaseResource {
     }.toIterable
   }
 
+  def mainWiki(projectId: Long): Option[Wiki] = {
+    import redmine4s.api.json.ProjectJsonHelper.wikiReads
+    try {
+      Some(show(s"/projects/$projectId/wiki.json", __ \ "wiki_page", Map.empty).copy(projectId = projectId, redmine = redmine))
+    } catch {
+      case e:NotFoundException => None
+    }
+  }
+
   def showWiki(projectId: Long, title: String): Wiki = {
     import redmine4s.api.json.ProjectJsonHelper.wikiReads
     show(s"/projects/$projectId/wiki/$title.json", __ \ "wiki_page", Map.empty).copy(projectId = projectId, redmine = redmine)

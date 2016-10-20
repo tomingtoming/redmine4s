@@ -6,20 +6,12 @@ import play.api.libs.json._
 import redmine4s.api.model._
 
 object IssueJsonHelper extends BaseJsonHelper {
+  import AttachmentJsonHelper.attachmentReads
   implicit val customFieldReads: Reads[CustomField] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'value).readNullable[String]
     ) (CustomField.apply _)
-  implicit val attachmentReads: Reads[Attachment] = (
-    (__ \ 'id).read[Long] ~
-      (__ \ 'filename).read[String] ~
-      (__ \ 'filesize).read[Long] ~
-      (__ \ 'description).read[String] ~
-      (__ \ 'content_url).read[String] ~
-      (__ \ 'author).read[(Long, String)] ~
-      (__ \ 'created_on).read[DateTime](timeReads)
-    ) (Attachment.apply _)
   implicit val changesetReads: Reads[ChangeSet] = (
     (__ \ 'revision).read[String] ~
       (__ \ 'user).readNullable[(Long, String)] ~
