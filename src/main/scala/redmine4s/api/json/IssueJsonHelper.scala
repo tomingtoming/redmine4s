@@ -6,7 +6,10 @@ import play.api.libs.json._
 import redmine4s.api.model._
 
 object IssueJsonHelper extends BaseJsonHelper {
+
   import AttachmentJsonHelper.attachmentReads
+  import AttachmentJsonHelper.uploadedFileWrites
+
   implicit val customFieldReads: Reads[CustomField] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
@@ -96,7 +99,8 @@ object IssueJsonHelper extends BaseJsonHelper {
         (__ \ 'issue \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
         (__ \ 'issue \ 'watcher_user_ids).writeNullable[Seq[Long]] ~
         (__ \ 'issue \ 'is_private).writeNullable[Boolean] ~
-        (__ \ 'issue \ 'estimated_hours).writeNullable[Double]
+        (__ \ 'issue \ 'estimated_hours).writeNullable[Double] ~
+        (__ \ 'issue \ 'uploads).writeNullable[Seq[UploadedFile]]
       ).tupled
   }
   implicit val issueUpdateWrites = {
@@ -115,7 +119,8 @@ object IssueJsonHelper extends BaseJsonHelper {
         (__ \ 'issue \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
         (__ \ 'issue \ 'watcher_user_ids).writeNullable[Seq[Long]] ~
         (__ \ 'issue \ 'is_private).writeNullable[Boolean] ~
-        (__ \ 'issue \ 'estimated_hours).writeNullable[Double]
+        (__ \ 'issue \ 'estimated_hours).writeNullable[Double] ~
+        (__ \ 'issue \ 'uploads).writeNullable[Seq[UploadedFile]]
       ).tupled
   }
 }

@@ -50,8 +50,9 @@ case class Issue(requiredFields: IssueRequiredFields, optionalFields: IssueOptio
              customFields: Option[Seq[(Long, String)]] = None,
              watcherUserIds: Option[Seq[Long]] = None,
              isPrivate: Option[Boolean] = None,
-             estimatedHours: Option[Double] = None): Issue = {
-    redmine.updateIssue(id, subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours)
+             estimatedHours: Option[Double] = None,
+             uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
+    redmine.updateIssue(id, subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles)
   }
 
   def delete(): Unit = redmine.deleteIssue(this.id)

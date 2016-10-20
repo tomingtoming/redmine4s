@@ -3,7 +3,7 @@ package redmine4s.api.json
 import org.joda.time.DateTime
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
-import redmine4s.api.model._
+import redmine4s.api.model.{UploadedFile, _}
 
 object AttachmentJsonHelper extends BaseJsonHelper {
   implicit val attachmentReads: Reads[Attachment] = (
@@ -18,4 +18,9 @@ object AttachmentJsonHelper extends BaseJsonHelper {
     ) { (id, fileName, fileSize, contentType, description, contentUrl, author, createdOn) =>
     Attachment(id, fileName, fileSize, contentType, description, contentUrl, author, createdOn, null)
   }
+  implicit val uploadedFileWrites = (
+    (__ \ 'filename).write[String] ~
+      (__ \ 'content_type).write[String] ~
+      (__ \ 'token).write[String]
+    ) (unlift(UploadedFile.unapply))
 }

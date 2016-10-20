@@ -34,9 +34,10 @@ trait IssueResource extends BaseResource {
                   customFields: Option[Seq[(Long, String)]] = None,
                   watcherUserIds: Option[Seq[Long]] = None,
                   isPrivate: Option[Boolean] = None,
-                  estimatedHours: Option[Double] = None): Issue = {
-    import redmine4s.api.json.IssueJsonHelper.{issueCreateWrites, issueReads}
-    applyRedmineToIssue(create("/issues.json", __ \ 'issue, (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours)))
+                  estimatedHours: Option[Double] = None,
+                  uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
+    import redmine4s.api.json.IssueJsonHelper.{issueReads, issueCreateWrites}
+    applyRedmineToIssue(create("/issues.json", __ \ 'issue, (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload)))))
   }
 
   def updateIssue(id: Long,
@@ -53,9 +54,10 @@ trait IssueResource extends BaseResource {
                   customFields: Option[Seq[(Long, String)]] = None,
                   watcherUserIds: Option[Seq[Long]] = None,
                   isPrivate: Option[Boolean] = None,
-                  estimatedHours: Option[Double] = None): Issue = {
+                  estimatedHours: Option[Double] = None,
+                  uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
     import redmine4s.api.json.IssueJsonHelper.issueUpdateWrites
-    update(s"/issues/$id.json", (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours))
+    update(s"/issues/$id.json", (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload))))
     showIssue(id)
   }
 

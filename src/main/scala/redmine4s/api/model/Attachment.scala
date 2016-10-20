@@ -1,5 +1,7 @@
 package redmine4s.api.model
 
+import java.io.InputStream
+
 import org.apache.commons.codec.digest.DigestUtils
 import org.joda.time.DateTime
 import redmine4s.Redmine
@@ -21,3 +23,7 @@ case class Attachment(id: Long, fileName: String, fileSize: Long, contentType: O
     }
   }
 }
+
+case class UploadFile(filename: String, contentType: String, content: Either[InputStream,Array[Byte]])
+
+case class UploadedFile(filename: String, contentType: String, token: String)

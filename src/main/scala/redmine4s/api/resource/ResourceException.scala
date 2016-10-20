@@ -7,3 +7,5 @@ sealed class ResourceException private[redmine4s](message: String = null, cause:
 final class ForbiddenException private[redmine4s](message: String = null, cause: Throwable = null) extends ResourceException(message, cause)
 
 final class NotFoundException private[redmine4s](message: String = null, cause: Throwable = null) extends ResourceException(message, cause)
+
+final class SizeLimitExceededException private[redmine4s](message: String = null, cause: Throwable = null) extends ResourceException(message, cause)
