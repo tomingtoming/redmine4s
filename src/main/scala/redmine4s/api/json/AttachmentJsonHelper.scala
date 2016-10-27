@@ -5,7 +5,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import redmine4s.api.model.{UploadedFile, _}
 
-object AttachmentJsonHelper extends BaseJsonHelper {
+trait AttachmentJsonHelper extends BaseJsonHelper {
   implicit val attachmentReads: Reads[Attachment] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'filename).read[String] ~

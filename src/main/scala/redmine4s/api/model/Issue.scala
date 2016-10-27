@@ -89,5 +89,3 @@ case class IssueOptionalFields(parent: Option[Long],
                                relations: Option[Seq[IssueRelation]])
 
 case class IssueChild(id: Long, tracker: (Long, String), subject: String)
-
-case class IssueRelation(id: Long, issueId: Long, issueToId: Long, relationType: String, delay: Option[Int])

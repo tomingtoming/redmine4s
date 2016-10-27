@@ -2,7 +2,7 @@ package redmine4s.api.model
 
 import org.slf4j.LoggerFactory
 import play.api.libs.json.Json
-import redmine4s.api.json.TrackerJsonHelper._
+import redmine4s.api.json.JsonHelper._
 
 import scala.io.Source
 

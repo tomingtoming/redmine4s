@@ -6,17 +6,22 @@ import redmine4s.conf.Configuration
 
 class Redmine(val configuration: Configuration)
   extends AttachmentResource
+    with BaseResource
+    with GroupResource
     with IssueCategoryResource
     with IssuePriorityResource
+    with IssueRelationResource
     with IssueResource
     with IssueStatusResource
     with NewsResource
     with ProjectMembershipResource
     with ProjectResource
+    with QueryResource
     with RoleResource
     with TimeEntryActivityResource
     with TimeEntryResource
     with TrackerResource
+    with UserResource
     with VersionResource
     with WikiResource {
   override protected val logger = LoggerFactory.getLogger(this.getClass)

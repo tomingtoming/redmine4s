@@ -4,9 +4,10 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import redmine4s.api.model.Tracker
 
-object TrackerJsonHelper extends BaseJsonHelper {
+trait TrackerJsonHelper extends BaseJsonHelper {
   implicit val trackerReads: Reads[Tracker] = (
     (__ \ 'id).read[Long] ~
-      (__ \ 'name).read[String]
+      (__ \ 'name).read[String] ~
+      (__ \ 'default_status).readNullable[(Long, String)]
     ) (Tracker.apply _)
 }

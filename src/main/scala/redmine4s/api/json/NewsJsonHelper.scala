@@ -5,7 +5,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import redmine4s.api.model.News
 
-object NewsJsonHelper extends BaseJsonHelper {
+trait  NewsJsonHelper extends BaseJsonHelper {
   implicit val newsReads: Reads[News] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'project).read[(Long, String)] ~

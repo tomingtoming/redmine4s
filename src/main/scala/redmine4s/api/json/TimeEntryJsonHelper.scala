@@ -3,9 +3,9 @@ package redmine4s.api.json
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
-import redmine4s.api.model.TimeEntry
+import redmine4s.api.model.{CustomField, TimeEntry}
 
-object TimeEntryJsonHelper extends BaseJsonHelper {
+trait TimeEntryJsonHelper extends CustomFieldJsonHelper {
   implicit val timeEntryReads: Reads[TimeEntry] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'project).read[(Long, String)] ~
@@ -16,6 +16,7 @@ object TimeEntryJsonHelper extends BaseJsonHelper {
       (__ \ 'comments).read[String] ~
       (__ \ 'spent_on).read[LocalDate](dateReads) ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
-      (__ \ 'updated_on).read[DateTime](timeReads)
+      (__ \ 'updated_on).read[DateTime](timeReads) ~
+      (__ \ 'custom_fields).readNullable[Seq[CustomField]]
     ) (TimeEntry.apply _)
 }

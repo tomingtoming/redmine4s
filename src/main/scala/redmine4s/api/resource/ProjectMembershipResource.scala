@@ -5,7 +5,7 @@ import redmine4s.api.model.ProjectMembership
 
 trait ProjectMembershipResource extends BaseResource {
   def listProjectMemberships(projectId: Long): Iterable[ProjectMembership] = {
-    import redmine4s.api.json.ProjectJsonHelper.projectMembershipReads
+    import redmine4s.api.json.JsonHelper.projectMembershipReads
     list(s"/projects/$projectId/memberships.json", __ \ 'memberships, Map.empty).toIterable
   }
 }

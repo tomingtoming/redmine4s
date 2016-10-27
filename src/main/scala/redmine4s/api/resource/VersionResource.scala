@@ -1,16 +1,41 @@
 package redmine4s.api.resource
 
+import org.joda.time.LocalDate
 import play.api.libs.json._
-import redmine4s.api.model.Version
+import redmine4s.api.json.JsonHelper.versionReads
+import redmine4s.api.model.{Sharing, Status, Version}
 
+/**
+  * Versions
+  * http://www.redmine.org/projects/redmine/wiki/Rest_Versions
+  */
 trait VersionResource extends BaseResource {
-  def listVersions(projectId: Long): Iterable[Version] = {
-    import redmine4s.api.json.ProjectJsonHelper.versionReads
+  /** Returns the versions available for the project of given id or identifier (:project_id). The response may include shared versions from other projects. */
+  def listVersions(projectId: Long): Iterable[Version] = listVersions(projectId.toString)
+
+  /** Returns the versions available for the project of given id or identifier (:project_id). The response may include shared versions from other projects. */
+  def listVersions(projectId: String): Iterable[Version] = {
     list(s"/projects/$projectId/versions.json", __ \ "versions", Map.empty).toIterable
   }
 
+  /** Creates a version for the project of given id or identifier. */
+  def createVersion(projectId: String, name: String, status: Status = Status.Open, sharing: Sharing = Sharing.None, dueDate: Option[LocalDate] = None, description: String = ""): Version = {
+    import redmine4s.api.json.JsonHelper.{versionCreateWrites, versionReads}
+    create(s"/projects/$projectId/versions.json", __ \ 'version, (name, status, sharing, dueDate, description))
+  }
+
+  /** Returns the version of given id. */
   def showVersion(versionId: Long): Version = {
-    import redmine4s.api.json.ProjectJsonHelper.versionReads
     show(s"/versions/$versionId.json", __ \ "version", Map.empty)
   }
+
+  /** Updates the version of given id. */
+  def updateVersion(versionId: Long, name: String, status: Status = Status.Open, sharing: Sharing = Sharing.None, dueDate: Option[LocalDate] = None, description: String = ""): Version = {
+    import redmine4s.api.json.JsonHelper.versionUpdateWrites
+    update(s"/versions/$versionId.json", (name, status, sharing, dueDate, description))
+    showVersion(versionId)
+  }
+
+  /** Deletes the version of given id. */
+  def deleteVersion(versionId: Long): Unit = delete(s"/versions/$versionId.json")
 }

@@ -4,7 +4,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import redmine4s.api.model.IssueStatus
 
-object IssueStatusJsonHelper {
+trait IssueStatusJsonHelper extends BaseJsonHelper {
   implicit val issueStatusReads: Reads[IssueStatus] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~

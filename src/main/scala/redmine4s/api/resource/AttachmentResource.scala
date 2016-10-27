@@ -2,6 +2,7 @@ package redmine4s.api.resource
 
 import java.io.{ByteArrayOutputStream, InputStream}
 
+import play.api.libs.json._
 import org.apache.http.HttpEntity
 import org.apache.http.client.methods.{HttpGet, HttpPost}
 import org.apache.http.client.utils.HttpClientUtils
@@ -9,7 +10,21 @@ import org.apache.http.entity.{ByteArrayEntity, InputStreamEntity}
 import play.api.libs.json.Json
 import redmine4s.api.model.{Attachment, UploadFile, UploadedFile}
 
+/**
+  * Attachments
+  * http://www.redmine.org/projects/redmine/wiki/Rest_Attachments
+  */
 trait AttachmentResource extends BaseResource {
+
+  /**
+    * Returns the description of the attachment of given id.
+    * The file can actually be downloaded at the URL given by the content_url attribute in the response.
+    */
+  def showAttachment(attachmentId: Long): Attachment = {
+    import redmine4s.api.json.JsonHelper.attachmentReads
+    show(s"/attachments/$attachmentId.json", __ \ 'attachment, Map.empty)
+  }
+
   def getAttachmentContent(attachment: Attachment): Array[Byte] = {
     val get = new HttpGet(attachment.contentUrl)
     authorization.foreach { auth => get.addHeader(auth.header._1, auth.header._2) }
@@ -33,9 +48,8 @@ trait AttachmentResource extends BaseResource {
     }
   }
 
-
   def upload(uploadFile: UploadFile): UploadedFile = uploadFile.content match {
-    case Left(in) =>upload(uploadFile.filename, uploadFile.contentType, in)
+    case Left(in) => upload(uploadFile.filename, uploadFile.contentType, in)
     case Right(bytes) => upload(uploadFile.filename, uploadFile.contentType, bytes)
   }
 

@@ -11,7 +11,7 @@ case class Attachment(id: Long, fileName: String, fileSize: Long, contentType: O
   lazy val digest: String = DigestUtils.md5Hex(content)
   lazy val diskDirectory = createdOn.toString("yyyy/MM")
   lazy val diskFilename = {
-    def letterCheck(str: String): Boolean = str.forall { c => c.isLetterOrDigit || "_-.".contains(c) }
+    def letterCheck(str: String): Boolean = str.forall { c => c.isLower || c.isUpper || c.isDigit || "_-.".contains(c) }
     val header = createdOn.toString("yyMMddHHmmss_")
     if (letterCheck(fileName)) {
       header + fileName
@@ -24,6 +24,6 @@ case class Attachment(id: Long, fileName: String, fileSize: Long, contentType: O
   }
 }
 
-case class UploadFile(filename: String, contentType: String, content: Either[InputStream,Array[Byte]])
+case class UploadFile(filename: String, contentType: String, content: Either[InputStream, Array[Byte]])
 
 case class UploadedFile(filename: String, contentType: String, token: String)

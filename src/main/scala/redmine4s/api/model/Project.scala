@@ -17,6 +17,7 @@ sealed trait Project {
   val createdOn: DateTime
   val updatedOn: DateTime
   val identifier: String
+  val customField: Option[Seq[CustomField]]
 
   def show: Project = redmine.showProject(this.id)
 
@@ -25,11 +26,12 @@ sealed trait Project {
              homepage: Option[String] = None,
              isPublic: Option[Boolean] = None,
              parent: Option[Long] = None,
+             customField: Option[Seq[CustomField]] = None,
              inheritMembers: Option[Boolean] = None,
              trackers: Option[Seq[Long]] = None,
              issueCategories: Option[Seq[Long]] = None,
              enabledModules: Option[Seq[String]] = None): Project = {
-    redmine.updateProject(Right(identifier), name, description, homepage, isPublic, parent, inheritMembers, trackers, issueCategories, enabledModules)
+    redmine.updateProject(Right(identifier), name, description, homepage, isPublic, parent, customField, inheritMembers, trackers, issueCategories, enabledModules)
   }
 
   def delete(): Unit = redmine.deleteProject(identifier)
@@ -40,7 +42,7 @@ sealed trait Project {
 
   def listIssueCategories: Iterable[IssueCategory] = redmine.listIssueCategories(this.id)
 
-  def mainWiki(): Option[Wiki] = redmine.mainWiki(this.id)
+  def mainWikiTitle(): Option[String] = redmine.mainWikiTitle(this.id)
 
   def listWikis(): Iterable[Wiki] = redmine.listWikis(this.id)
 
@@ -61,6 +63,7 @@ case class ProjectSummary(id: Long,
                           createdOn: DateTime,
                           updatedOn: DateTime,
                           identifier: String,
+                          customField: Option[Seq[CustomField]],
                           redmine: Redmine) extends Project {
   protected val logger = LoggerFactory.getLogger(this.getClass)
 }
@@ -74,6 +77,7 @@ case class ProjectDetail25(id: Long,
                            createdOn: DateTime,
                            updatedOn: DateTime,
                            identifier: String,
+                           customField: Option[Seq[CustomField]],
                            trackers: Seq[(Long, String)],
                            issueCategories: Seq[(Long, String)],
                            redmine: Redmine) extends ProjectDetail {
@@ -89,6 +93,7 @@ case class ProjectDetail26(id: Long,
                            createdOn: DateTime,
                            updatedOn: DateTime,
                            identifier: String,
+                           customField: Option[Seq[CustomField]],
                            trackers: Seq[(Long, String)],
                            issueCategories: Seq[(Long, String)],
                            enabledModules: Seq[String],

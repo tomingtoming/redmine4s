@@ -11,12 +11,12 @@ trait IssueResource extends BaseResource {
   }
 
   def listIssues(params: Map[String, String] = Map.empty): Iterable[Issue] = {
-    import redmine4s.api.json.IssueJsonHelper.issueReads
+    import redmine4s.api.json.JsonHelper.issueReads
     list("/issues.json", __ \ "issues", params).map(applyRedmineToIssue).toIterable
   }
 
   def showIssue(issueId: Long): Issue = {
-    import redmine4s.api.json.IssueJsonHelper.issueReads
+    import redmine4s.api.json.JsonHelper.issueReads
     val params = Map("include" -> "attachments,changesets,children,journals,relations,watchers")
     applyRedmineToIssue.apply(show(s"/issues/$issueId.json", __ \ "issue", params))
   }
@@ -36,7 +36,7 @@ trait IssueResource extends BaseResource {
                   isPrivate: Option[Boolean] = None,
                   estimatedHours: Option[Double] = None,
                   uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
-    import redmine4s.api.json.IssueJsonHelper.{issueReads, issueCreateWrites}
+    import redmine4s.api.json.JsonHelper.{issueReads, issueCreateWrites}
     applyRedmineToIssue(create("/issues.json", __ \ 'issue, (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload)))))
   }
 
@@ -56,7 +56,7 @@ trait IssueResource extends BaseResource {
                   isPrivate: Option[Boolean] = None,
                   estimatedHours: Option[Double] = None,
                   uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
-    import redmine4s.api.json.IssueJsonHelper.issueUpdateWrites
+    import redmine4s.api.json.JsonHelper.issueUpdateWrites
     update(s"/issues/$id.json", (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload))))
     showIssue(id)
   }

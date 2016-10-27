@@ -5,47 +5,18 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import redmine4s.api.model._
 
-object IssueJsonHelper extends BaseJsonHelper {
-
-  import AttachmentJsonHelper.attachmentReads
-  import AttachmentJsonHelper.uploadedFileWrites
-
-  implicit val customFieldReads: Reads[CustomField] = (
-    (__ \ 'id).read[Long] ~
-      (__ \ 'name).read[String] ~
-      (__ \ 'value).readNullable[String]
-    ) (CustomField.apply _)
+trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper with JournalJsonHelper with IssueRelationJsonHelper {
   implicit val changesetReads: Reads[ChangeSet] = (
     (__ \ 'revision).read[String] ~
       (__ \ 'user).readNullable[(Long, String)] ~
       (__ \ 'comments).read[String] ~
       (__ \ 'committed_on).read[DateTime](timeReads)
     ) (ChangeSet.apply _)
-  implicit val journalDetailsReads: Reads[JournalDetails] = (
-    (__ \ 'property).read[String] ~
-      (__ \ 'name).read[String] ~
-      (__ \ 'old_value).readNullable[String] ~
-      (__ \ 'new_value).readNullable[String]
-    ) (JournalDetails.apply _)
-  implicit val journalReads: Reads[Journal] = (
-    (__ \ 'id).read[Long] ~
-      (__ \ 'user).read[(Long, String)] ~
-      (__ \ 'notes).readNullable[String] ~
-      (__ \ 'created_on).read[DateTime](timeReads) ~
-      (__ \ 'details).read[Seq[JournalDetails]]
-    ) (Journal.apply _)
   implicit val issueChildReads: Reads[IssueChild] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'tracker).read[(Long, String)] ~
       (__ \ 'subject).read[String]
     ) (IssueChild.apply _)
-  implicit val issueRelationReads: Reads[IssueRelation] = (
-    (__ \ 'id).read[Long] ~
-      (__ \ 'issue_id).read[Long] ~
-      (__ \ 'issue_to_id).read[Long] ~
-      (__ \ 'relation_type).read[String] ~
-      (__ \ 'delay).readNullable[Int]
-    ) (IssueRelation.apply _)
   implicit val issueRequiredFieldsReads: Reads[IssueRequiredFields] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'project).read[(Long, String)] ~
