@@ -41,7 +41,7 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
       (__ \ 'actual_due_date).readNullable[LocalDate](dateReads) ~
       (__ \ 'estimated_hours).readNullable[Double] ~
       (__ \ 'closed_on).readNullable[DateTime](timeReads) ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomField]] ~
+      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
       (__ \ 'watchers).readNullable[Seq[(Long, String)]] ~
       (__ \ 'attachments).readNullable[Seq[Attachment]] ~
       (__ \ 'changesets).readNullable[Seq[ChangeSet]] ~

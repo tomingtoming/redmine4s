@@ -26,7 +26,7 @@ case class Issue(requiredFields: IssueRequiredFields, optionalFields: IssueOptio
   val actualDueDate: Option[LocalDate] = optionalFields.actualDueDate
   val estimatedHours: Option[Double] = optionalFields.estimatedHours
   val closedOn: Option[DateTime] = optionalFields.closedOn
-  val customField: Option[Seq[CustomField]] = optionalFields.customField
+  val customField: Option[Seq[CustomFieldValue]] = optionalFields.customField
   val watchers: Option[Seq[(Long, String)]] = optionalFields.watchers
   val attachments: Option[Seq[Attachment]] = optionalFields.attachments
   val changeSets: Option[Seq[ChangeSet]] = optionalFields.changeSets
@@ -80,7 +80,7 @@ case class IssueOptionalFields(parent: Option[Long],
                                actualDueDate: Option[LocalDate],
                                estimatedHours: Option[Double],
                                closedOn: Option[DateTime],
-                               customField: Option[Seq[CustomField]],
+                               customField: Option[Seq[CustomFieldValue]],
                                watchers: Option[Seq[(Long, String)]],
                                attachments: Option[Seq[Attachment]],
                                changeSets: Option[Seq[ChangeSet]],

@@ -17,16 +17,16 @@ trait IssueCategoryResource extends BaseResource {
     list(s"/projects/$projectId/issue_categories.json", __ \ 'issue_categories, Map.empty).toIterable
   }
 
-  /** Returns the issue category of given id. */
-  def showIssueCategory(issueCategoryId: Long): IssueCategory = {
-    import redmine4s.api.json.JsonHelper.issueCategoryReads
-    show(s"/issue_categories/$issueCategoryId.json", __ \ 'issue_category, Map.empty)
-  }
-
   /** Creates an issue category for the project of given id or identifier. */
   def createIssueCategory(projectId: Long, name: String, assignedToId: Option[Long] = None): IssueCategory = {
     import redmine4s.api.json.JsonHelper.{issueCategoryCreateWrites, issueCategoryReads}
     create(s"/projects/$projectId/issue_categories.json", __ \ 'issue_category, (name, assignedToId))
+  }
+
+  /** Returns the issue category of given id. */
+  def showIssueCategory(issueCategoryId: Long): IssueCategory = {
+    import redmine4s.api.json.JsonHelper.issueCategoryReads
+    show(s"/issue_categories/$issueCategoryId.json", __ \ 'issue_category, Map.empty)
   }
 
   /** Updates the issue category of given id. */

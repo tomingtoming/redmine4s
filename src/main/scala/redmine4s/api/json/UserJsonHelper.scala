@@ -16,6 +16,6 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'groups).readNullable[Seq[(Long, String)]] ~
       (__ \ 'memberships).readNullable[Seq[ProjectMembership]] ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomField]]
+      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
     ) (User.apply _)
 }

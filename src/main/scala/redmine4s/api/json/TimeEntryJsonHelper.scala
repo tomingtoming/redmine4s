@@ -3,7 +3,7 @@ package redmine4s.api.json
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
-import redmine4s.api.model.{CustomField, TimeEntry}
+import redmine4s.api.model.{CustomFieldValue, TimeEntry}
 
 trait TimeEntryJsonHelper extends CustomFieldJsonHelper {
   implicit val timeEntryReads: Reads[TimeEntry] = (
@@ -17,6 +17,6 @@ trait TimeEntryJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'spent_on).read[LocalDate](dateReads) ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomField]]
+      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
     ) (TimeEntry.apply _)
 }

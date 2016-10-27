@@ -16,7 +16,7 @@ trait VersionJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'sharing).read[Sharing] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomField]]
+      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
     ) (Version.apply _)
   implicit val versionCreateWrites = (
     (__ \ 'name).write[String] ~

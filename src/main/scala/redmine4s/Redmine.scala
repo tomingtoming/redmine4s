@@ -7,9 +7,9 @@ import redmine4s.conf.Configuration
 class Redmine(val configuration: Configuration)
   extends AttachmentResource
     with BaseResource
+    with EnumerationResource
     with GroupResource
     with IssueCategoryResource
-    with IssuePriorityResource
     with IssueRelationResource
     with IssueResource
     with IssueStatusResource
@@ -18,7 +18,6 @@ class Redmine(val configuration: Configuration)
     with ProjectResource
     with QueryResource
     with RoleResource
-    with TimeEntryActivityResource
     with TimeEntryResource
     with TrackerResource
     with UserResource

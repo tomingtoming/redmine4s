@@ -17,7 +17,7 @@ sealed trait Project {
   val createdOn: DateTime
   val updatedOn: DateTime
   val identifier: String
-  val customField: Option[Seq[CustomField]]
+  val customField: Option[Seq[CustomFieldValue]]
 
   def show: Project = redmine.showProject(this.id)
 
@@ -26,7 +26,7 @@ sealed trait Project {
              homepage: Option[String] = None,
              isPublic: Option[Boolean] = None,
              parent: Option[Long] = None,
-             customField: Option[Seq[CustomField]] = None,
+             customField: Option[Seq[CustomFieldValue]] = None,
              inheritMembers: Option[Boolean] = None,
              trackers: Option[Seq[Long]] = None,
              issueCategories: Option[Seq[Long]] = None,
@@ -63,7 +63,7 @@ case class ProjectSummary(id: Long,
                           createdOn: DateTime,
                           updatedOn: DateTime,
                           identifier: String,
-                          customField: Option[Seq[CustomField]],
+                          customField: Option[Seq[CustomFieldValue]],
                           redmine: Redmine) extends Project {
   protected val logger = LoggerFactory.getLogger(this.getClass)
 }
@@ -77,7 +77,7 @@ case class ProjectDetail25(id: Long,
                            createdOn: DateTime,
                            updatedOn: DateTime,
                            identifier: String,
-                           customField: Option[Seq[CustomField]],
+                           customField: Option[Seq[CustomFieldValue]],
                            trackers: Seq[(Long, String)],
                            issueCategories: Seq[(Long, String)],
                            redmine: Redmine) extends ProjectDetail {
@@ -93,7 +93,7 @@ case class ProjectDetail26(id: Long,
                            createdOn: DateTime,
                            updatedOn: DateTime,
                            identifier: String,
-                           customField: Option[Seq[CustomField]],
+                           customField: Option[Seq[CustomFieldValue]],
                            trackers: Seq[(Long, String)],
                            issueCategories: Seq[(Long, String)],
                            enabledModules: Seq[String],

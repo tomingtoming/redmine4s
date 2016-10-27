@@ -11,4 +11,4 @@ case class User(id: Long,
                 createdOn: DateTime,
                 groups: Option[Seq[(Long, String)]],
                 memberships: Option[Seq[ProjectMembership]],
-                customField: Option[Seq[CustomField]])
+                customField: Option[Seq[CustomFieldValue]])
