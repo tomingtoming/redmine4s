@@ -2,7 +2,6 @@ package redmine4s.api.resource
 
 import org.joda.time.LocalDate
 import play.api.libs.json._
-import redmine4s.api.json.JsonHelper.versionReads
 import redmine4s.api.model.{Sharing, Status, Version}
 
 /**
@@ -15,18 +14,20 @@ trait VersionResource extends BaseResource {
 
   /** Returns the versions available for the project of given id or identifier (:project_id). The response may include shared versions from other projects. */
   def listVersions(projectId: String): Iterable[Version] = {
-    list(s"/projects/$projectId/versions.json", __ \ "versions", Map.empty).toIterable
+    import redmine4s.api.json.JsonHelper.versionReads
+    list(s"/projects/$projectId/versions.json", __ \ "versions", Map.empty).map(_.copy(redmine = redmine)).toIterable
   }
 
   /** Creates a version for the project of given id or identifier. */
   def createVersion(projectId: String, name: String, status: Status = Status.Open, sharing: Sharing = Sharing.None, dueDate: Option[LocalDate] = None, description: String = ""): Version = {
     import redmine4s.api.json.JsonHelper.{versionCreateWrites, versionReads}
-    create(s"/projects/$projectId/versions.json", __ \ 'version, (name, status, sharing, dueDate, description))
+    create(s"/projects/$projectId/versions.json", __ \ 'version, (name, status, sharing, dueDate, description)).copy(redmine = redmine)
   }
 
   /** Returns the version of given id. */
   def showVersion(versionId: Long): Version = {
-    show(s"/versions/$versionId.json", __ \ "version", Map.empty)
+    import redmine4s.api.json.JsonHelper.versionReads
+    show(s"/versions/$versionId.json", __ \ "version", Map.empty).copy(redmine = redmine)
   }
 
   /** Updates the version of given id. */

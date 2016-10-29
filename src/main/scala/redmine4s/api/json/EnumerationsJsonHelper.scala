@@ -9,10 +9,14 @@ trait  EnumerationsJsonHelper {
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'is_default).read[Boolean](false)
-    ) (IssuePriority.apply _)
+    ) { (id: Long, name: String, isDefault: Boolean) =>
+    IssuePriority(id, name, isDefault, null)
+  }
   implicit val timeEntryActivitiesReads: Reads[TimeEntryActivity] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'is_default).read[Boolean](false)
-    ) (TimeEntryActivity.apply _)
+    ) { (id: Long, name: String, isDefault: Boolean) =>
+    TimeEntryActivity(id, name, isDefault, null)
+  }
 }

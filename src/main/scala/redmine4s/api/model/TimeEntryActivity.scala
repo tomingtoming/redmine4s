@@ -1,3 +1,5 @@
 package redmine4s.api.model
 
-case class TimeEntryActivity(id: Long, name: String, isDefault: Boolean)
+import redmine4s.Redmine
+
+case class TimeEntryActivity(id: Long, name: String, isDefault: Boolean, redmine: Redmine)

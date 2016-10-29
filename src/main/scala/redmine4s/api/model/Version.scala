@@ -1,9 +1,10 @@
 package redmine4s.api.model
 
 import org.joda.time.{DateTime, LocalDate}
+import redmine4s.Redmine
 import redmine4s.api.resource.ResourceException
 
-case class Version(id: Long, project: (Long, String), name: String, description: String, dueDate: Option[LocalDate], status: Status, sharing: Sharing, createdOn: DateTime, updatedOn: DateTime, customField: Option[Seq[CustomFieldValue]])
+case class Version(id: Long, project: (Long, String), name: String, description: String, dueDate: Option[LocalDate], status: Status, sharing: Sharing, createdOn: DateTime, updatedOn: DateTime, customField: Option[Seq[CustomFieldValue]], redmine: Redmine)
 
 sealed trait Status
 

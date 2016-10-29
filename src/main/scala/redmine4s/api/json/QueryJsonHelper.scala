@@ -10,5 +10,7 @@ trait QueryJsonHelper extends BaseJsonHelper {
       (__ \ 'name).read[String] ~
       (__ \ 'is_public).read[Boolean](false) ~
       (__ \ 'project_id).readNullable[Long]
-    ) (Query.apply _)
+    ) { (id: Long, name: String, isPublic: Boolean, projectId: Option[Long]) =>
+    Query(id, name, isPublic, projectId, null)
+  }
 }

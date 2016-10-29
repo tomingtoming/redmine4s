@@ -82,7 +82,7 @@ trait BaseResource {
           logger.debug(s"url=$url, responseJson=$responseJson")
           targetJsPath.read[T].reads(responseJson).asEither match {
             case Left(errors) => throw JsResultException(errors)
-            case Right(targets) => targets
+            case Right(target) => target
           }
         case 403 /*Forbidden*/ =>
           logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")

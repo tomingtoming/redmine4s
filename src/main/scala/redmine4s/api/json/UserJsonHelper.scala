@@ -17,5 +17,7 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
       (__ \ 'groups).readNullable[Seq[(Long, String)]] ~
       (__ \ 'memberships).readNullable[Seq[ProjectMembership]] ~
       (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
-    ) (User.apply _)
+    ) { (id: Long, login: String, lastname: String, firstname: String, mail: String, lastLoginOn: Option[DateTime], createdOn: DateTime, groups: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Option[Seq[CustomFieldValue]]) =>
+    User(id, login, lastname, firstname, mail, lastLoginOn, createdOn, groups, memberships, customField, null)
+  }
 }

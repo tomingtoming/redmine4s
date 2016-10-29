@@ -11,5 +11,7 @@ trait ProjectMembershipJsonHelper extends RoleJsonHelper {
       (__ \ 'user).readNullable[(Long, String)] ~
       (__ \ 'group).readNullable[(Long, String)] ~
       (__ \ 'roles).read[Iterable[Role]]
-    ) (ProjectMembership.apply _)
+    ) { (id: Long, project: (Long, String), user: Option[(Long, String)], group: Option[(Long, String)], roles: Iterable[Role]) =>
+    ProjectMembership(id, project, user, group, roles, null)
+  }
 }

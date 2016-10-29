@@ -11,6 +11,6 @@ trait QueryResource extends BaseResource {
   /** Returns the list of all custom queries visible by the user (public and private queries) for all projects. */
   def listQueries(): Iterable[Query] = {
     import redmine4s.api.json.JsonHelper.queryReads
-    list("/queries.json", __ \ 'queries, Map.empty).toIterable
+    list("/queries.json", __ \ 'queries, Map.empty).map(_.copy(redmine = redmine)).toIterable
   }
 }
