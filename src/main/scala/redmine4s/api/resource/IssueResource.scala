@@ -3,6 +3,10 @@ package redmine4s.api.resource
 import play.api.libs.json._
 import redmine4s.api.model._
 
+/**
+  * Issues
+  * http://www.redmine.org/projects/redmine/wiki/Rest_Issues
+  */
 trait IssueResource extends BaseResource {
   private def applyRedmineToIssue: PartialFunction[Issue, Issue] = {
     case p: Issue =>
@@ -10,17 +14,20 @@ trait IssueResource extends BaseResource {
       p.copy(redmine = redmine, optionalFields = p.optionalFields.copy(attachments = attachments))
   }
 
+  /** Listing issues */
   def listIssues(params: Map[String, String] = Map.empty): Iterable[Issue] = {
     import redmine4s.api.json.JsonHelper.issueReads
     list("/issues.json", __ \ "issues", params).map(applyRedmineToIssue).toIterable
   }
 
+  /** Showing an issue */
   def showIssue(issueId: Long): Issue = {
     import redmine4s.api.json.JsonHelper.issueReads
     val params = Map("include" -> "attachments,changesets,children,journals,relations,watchers")
     applyRedmineToIssue.apply(show(s"/issues/$issueId.json", __ \ "issue", params))
   }
 
+  /** Creating an issue */
   def createIssue(subject: String,
                   projectId: Long,
                   trackerId: Option[Long] = None,
@@ -36,10 +43,11 @@ trait IssueResource extends BaseResource {
                   isPrivate: Option[Boolean] = None,
                   estimatedHours: Option[Double] = None,
                   uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
-    import redmine4s.api.json.JsonHelper.{issueReads, issueCreateWrites}
+    import redmine4s.api.json.JsonHelper.{issueCreateWrites, issueReads}
     applyRedmineToIssue(create("/issues.json", __ \ 'issue, (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload)))))
   }
 
+  /** Updating an issue */
   def updateIssue(id: Long,
                   subject: Option[String] = None,
                   projectId: Option[Long] = None,
@@ -61,7 +69,14 @@ trait IssueResource extends BaseResource {
     showIssue(id)
   }
 
-  def deleteIssue(id: Long): Unit = {
-    delete(s"/issues/$id.json")
+  /** Deleting an issue */
+  def deleteIssue(id: Long): Unit = delete(s"/issues/$id.json")
+
+  /** Adding a watcher */
+  def addWatcher(issueId: Long, userId: Long): Unit = {
+    create(s"/issues/$issueId/watchers.json", __ \ 'user_id, userId)
   }
+
+  /** Removing a watcher */
+  def deleteWatcher(issueId: Long, userId: Long): Unit = delete(s"/issues/$issueId/watchers/$userId.json")
 }

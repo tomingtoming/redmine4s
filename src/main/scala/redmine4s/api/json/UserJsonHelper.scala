@@ -20,4 +20,24 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
     ) { (id: Long, login: String, lastname: String, firstname: String, mail: String, lastLoginOn: Option[DateTime], createdOn: DateTime, groups: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Option[Seq[CustomFieldValue]]) =>
     User(id, login, lastname, firstname, mail, lastLoginOn, createdOn, groups, memberships, customField, null)
   }
+  implicit val userCreateWrites = (
+    (__ \ 'user \ 'login).write[String] ~
+      (__ \ 'user \ 'password).writeNullable[String] ~
+      (__ \ 'user \ 'firstname).write[String] ~
+      (__ \ 'user \ 'lastname).write[String] ~
+      (__ \ 'user \ 'mail).write[String] ~
+      (__ \ 'user \ 'auth_source_id).writeNullable[Long] ~
+      (__ \ 'user \ 'mail_notification).writeNullable[String] ~
+      (__ \ 'user \ 'must_change_passwd).writeNullable[Boolean]
+    ).tupled
+  implicit val userUpdateWrites = (
+    (__ \ 'user \ 'login).writeNullable[String] ~
+      (__ \ 'user \ 'password).writeNullable[String] ~
+      (__ \ 'user \ 'firstname).writeNullable[String] ~
+      (__ \ 'user \ 'lastname).writeNullable[String] ~
+      (__ \ 'user \ 'mail).writeNullable[String] ~
+      (__ \ 'user \ 'auth_source_id).writeNullable[Long] ~
+      (__ \ 'user \ 'mail_notification).writeNullable[String] ~
+      (__ \ 'user \ 'must_change_passwd).writeNullable[Boolean]
+    ).tupled
 }

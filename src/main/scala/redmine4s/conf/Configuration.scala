@@ -16,7 +16,7 @@ object Configuration {
 
 trait Configuration {
   def baseUrl: String
-  def userPassword: Option[(String, String)]
-  def apiKey: Option[String]
+  def userPassword: Option[(String, String)] = None
+  def apiKey: Option[String] = None
   def httpClient: HttpClient = HttpClients.createDefault()
 }

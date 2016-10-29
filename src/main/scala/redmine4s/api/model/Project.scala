@@ -36,6 +36,24 @@ sealed trait Project {
 
   def delete(): Unit = redmine.deleteProject(identifier)
 
+  /** Creating an issue */
+  def createIssue(subject: String,
+                  trackerId: Option[Long] = None,
+                  statusId: Option[Long] = None,
+                  priorityId: Option[Long] = None,
+                  description: Option[String] = None,
+                  categoryId: Option[Long] = None,
+                  fixedVersionId: Option[Long] = None,
+                  assignedToId: Option[Long] = None,
+                  parentIssueId: Option[Long] = None,
+                  customFields: Option[Seq[(Long, String)]] = None,
+                  watcherUserIds: Option[Seq[Long]] = None,
+                  isPrivate: Option[Boolean] = None,
+                  estimatedHours: Option[Double] = None,
+                  uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
+    redmine.createIssue(subject, this.id, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles)
+  }
+
   def listProjectMemberships: Iterable[ProjectMembership] = redmine.listProjectMemberships(this.id)
 
   def listVersions: Iterable[Version] = redmine.listVersions(this.id)

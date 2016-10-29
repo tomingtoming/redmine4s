@@ -21,11 +21,11 @@ trait VersionJsonHelper extends CustomFieldJsonHelper {
     Version(id, project, name, description, dueDate, status, sharing, createdOn, updatedOn, customField, null)
   }
   implicit val versionCreateWrites = (
-    (__ \ 'name).write[String] ~
-      (__ \ 'status).write[Status] ~
-      (__ \ 'sharing).write[Sharing] ~
-      (__ \ 'due_date).writeNullable[LocalDate](dateWrites) ~
-      (__ \ 'description).write[String]
+    (__ \ 'version \ 'name).write[String] ~
+      (__ \ 'version \ 'status).write[Status] ~
+      (__ \ 'version \ 'sharing).write[Sharing] ~
+      (__ \ 'version \ 'due_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'version \ 'description).write[String]
     ).tupled
   implicit val versionUpdateWrites = versionCreateWrites
   implicit val versionStatusReads: Reads[Status] = JsPath.read[String].map(Status.fromString)
