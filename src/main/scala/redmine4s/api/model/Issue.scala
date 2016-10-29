@@ -3,7 +3,6 @@ package redmine4s.api.model
 import org.joda.time.{DateTime, LocalDate}
 import redmine4s.Redmine
 
-
 case class Issue(requiredFields: IssueRequiredFields, optionalFields: IssueOptionalFields, redmine: Redmine) {
   val id: Long = requiredFields.id
   val project: (Long, String) = requiredFields.project
