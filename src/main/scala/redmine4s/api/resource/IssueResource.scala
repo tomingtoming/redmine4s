@@ -1,5 +1,6 @@
 package redmine4s.api.resource
 
+import org.joda.time.LocalDate
 import play.api.libs.json._
 import redmine4s.api.model._
 
@@ -10,8 +11,7 @@ import redmine4s.api.model._
 trait IssueResource extends BaseResource {
   private def applyRedmineToIssue: PartialFunction[Issue, Issue] = {
     case p: Issue =>
-      val attachments = p.attachments.map(_.map(_.copy(redmine = redmine)))
-      p.copy(redmine = redmine, optionalFields = p.optionalFields.copy(attachments = attachments))
+      p.copy(redmine = redmine, attachments = p.attachments.map(_.map(_.copy(redmine = redmine))))
   }
 
   /** Listing issues */
@@ -34,7 +34,12 @@ trait IssueResource extends BaseResource {
                   statusId: Option[Long] = None,
                   priorityId: Option[Long] = None,
                   description: Option[String] = None,
+                  doneRatio: Option[Int] = None,
                   categoryId: Option[Long] = None,
+                  startDate: Option[LocalDate] = None,
+                  dueDate: Option[LocalDate] = None,
+                  actualStartDate: Option[LocalDate] = None,
+                  actualDueDate: Option[LocalDate] = None,
                   fixedVersionId: Option[Long] = None,
                   assignedToId: Option[Long] = None,
                   parentIssueId: Option[Long] = None,
@@ -44,7 +49,7 @@ trait IssueResource extends BaseResource {
                   estimatedHours: Option[Double] = None,
                   uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
     import redmine4s.api.json.JsonHelper.{issueCreateWrites, issueReads}
-    applyRedmineToIssue(create("/issues.json", __ \ 'issue, (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload)))))
+    applyRedmineToIssue(create("/issues.json", __ \ 'issue, (subject, projectId, trackerId, statusId, priorityId, description, doneRatio, categoryId, startDate, dueDate, actualStartDate, actualDueDate, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload)))))
   }
 
   /** Updating an issue */
@@ -55,7 +60,12 @@ trait IssueResource extends BaseResource {
                   statusId: Option[Long] = None,
                   priorityId: Option[Long] = None,
                   description: Option[String] = None,
+                  doneRatio: Option[Int] = None,
                   categoryId: Option[Long] = None,
+                  startDate: Option[LocalDate] = None,
+                  dueDate: Option[LocalDate] = None,
+                  actualStartDate: Option[LocalDate] = None,
+                  actualDueDate: Option[LocalDate] = None,
                   fixedVersionId: Option[Long] = None,
                   assignedToId: Option[Long] = None,
                   parentIssueId: Option[Long] = None,
@@ -65,7 +75,7 @@ trait IssueResource extends BaseResource {
                   estimatedHours: Option[Double] = None,
                   uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
     import redmine4s.api.json.JsonHelper.issueUpdateWrites
-    update(s"/issues/$id.json", (subject, projectId, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload))))
+    update(s"/issues/$id.json", (subject, projectId, trackerId, statusId, priorityId, description, doneRatio, categoryId, startDate, dueDate, actualStartDate, actualDueDate, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles.map(_.map(redmine.upload))))
     showIssue(id)
   }
 
@@ -74,7 +84,7 @@ trait IssueResource extends BaseResource {
 
   /** Adding a watcher */
   def addWatcher(issueId: Long, userId: Long): Unit = {
-    create(s"/issues/$issueId/watchers.json", __ \ 'user_id, userId)
+    create[Long, Long](s"/issues/$issueId/watchers.json", __ \ 'user_id, userId)
   }
 
   /** Removing a watcher */

@@ -1,6 +1,6 @@
 package redmine4s.api.model
 
-import org.joda.time.DateTime
+import org.joda.time.{DateTime, LocalDate}
 import org.slf4j.{Logger, LoggerFactory}
 import redmine4s.Redmine
 
@@ -42,7 +42,12 @@ sealed trait Project {
                   statusId: Option[Long] = None,
                   priorityId: Option[Long] = None,
                   description: Option[String] = None,
+                  doneRatio: Option[Int] = None,
                   categoryId: Option[Long] = None,
+                  startDate: Option[LocalDate] = None,
+                  dueDate: Option[LocalDate] = None,
+                  actualStartDate: Option[LocalDate] = None,
+                  actualDueDate: Option[LocalDate] = None,
                   fixedVersionId: Option[Long] = None,
                   assignedToId: Option[Long] = None,
                   parentIssueId: Option[Long] = None,
@@ -51,7 +56,7 @@ sealed trait Project {
                   isPrivate: Option[Boolean] = None,
                   estimatedHours: Option[Double] = None,
                   uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
-    redmine.createIssue(subject, this.id, trackerId, statusId, priorityId, description, categoryId, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles)
+    redmine.createIssue(subject, this.id, trackerId, statusId, priorityId, description, doneRatio, categoryId, startDate, dueDate, actualStartDate, actualDueDate, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles)
   }
 
   def listProjectMemberships: Iterable[ProjectMembership] = redmine.listProjectMemberships(this.id)
