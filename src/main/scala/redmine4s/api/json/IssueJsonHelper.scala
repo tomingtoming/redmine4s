@@ -36,7 +36,7 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
         (__ \ 'fixed_version).readNullable[(Long, String)] ~
         (__ \ 'assigned_to).readNullable[(Long, String)] ~
         (__ \ 'category).readNullable[(Long, String)] ~
-        (__ \ 'start_date).readNullable[LocalDate](dateReads) ~ //
+        (__ \ 'start_date).readNullable[LocalDate](dateReads) ~
         (__ \ 'due_date).readNullable[LocalDate](dateReads) ~
         (__ \ 'actual_start_date).readNullable[LocalDate](dateReads) ~
         (__ \ 'actual_due_date).readNullable[LocalDate](dateReads) ~
