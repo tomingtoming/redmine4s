@@ -19,8 +19,10 @@ sealed trait Project {
   val identifier: String
   val customField: Option[Seq[CustomFieldValue]]
 
-  def show: Project = redmine.showProject(this.id)
+  /** Returns the project of given id or identifier. */
+  def show(): Project = redmine.showProject(this.id)
 
+  /** Updates the project of given id or identifier. */
   def update(name: Option[String] = None,
              description: Option[String] = None,
              homepage: Option[String] = None,
@@ -34,30 +36,8 @@ sealed trait Project {
     redmine.updateProject(Right(identifier), name, description, homepage, isPublic, parent, customField, inheritMembers, trackers, issueCategories, enabledModules)
   }
 
+  /** Deletes the project of given id or identifier. */
   def delete(): Unit = redmine.deleteProject(identifier)
-
-  /** Creating an issue */
-  def createIssue(subject: String,
-                  trackerId: Option[Long] = None,
-                  statusId: Option[Long] = None,
-                  priorityId: Option[Long] = None,
-                  description: Option[String] = None,
-                  doneRatio: Option[Int] = None,
-                  categoryId: Option[Long] = None,
-                  startDate: Option[LocalDate] = None,
-                  dueDate: Option[LocalDate] = None,
-                  actualStartDate: Option[LocalDate] = None,
-                  actualDueDate: Option[LocalDate] = None,
-                  fixedVersionId: Option[Long] = None,
-                  assignedToId: Option[Long] = None,
-                  parentIssueId: Option[Long] = None,
-                  customFields: Option[Seq[(Long, String)]] = None,
-                  watcherUserIds: Option[Seq[Long]] = None,
-                  isPrivate: Option[Boolean] = None,
-                  estimatedHours: Option[Double] = None,
-                  uploadFiles: Option[Seq[UploadFile]] = None): Issue = {
-    redmine.createIssue(subject, this.id, trackerId, statusId, priorityId, description, doneRatio, categoryId, startDate, dueDate, actualStartDate, actualDueDate, fixedVersionId, assignedToId, parentIssueId, customFields, watcherUserIds, isPrivate, estimatedHours, uploadFiles)
-  }
 
   def listProjectMemberships: Iterable[ProjectMembership] = redmine.listProjectMemberships(this.id)
 
@@ -67,7 +47,7 @@ sealed trait Project {
 
   def mainWikiTitle(): Option[String] = redmine.mainWikiTitle(this.id)
 
-  def listWikis(): Iterable[Wiki] = redmine.listWikis(this.id)
+  def indexWikis(): Iterable[WikiIndex] = redmine.indexWikis(this.id)
 
   def listNews(): Iterable[News] = redmine.listNews(this.id)
 }

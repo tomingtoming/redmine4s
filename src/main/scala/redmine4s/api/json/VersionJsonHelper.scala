@@ -22,12 +22,18 @@ trait VersionJsonHelper extends CustomFieldJsonHelper {
   }
   implicit val versionCreateWrites = (
     (__ \ 'version \ 'name).write[String] ~
-      (__ \ 'version \ 'status).write[Status] ~
-      (__ \ 'version \ 'sharing).write[Sharing] ~
+      (__ \ 'version \ 'status).writeNullable[Status] ~
+      (__ \ 'version \ 'sharing).writeNullable[Sharing] ~
       (__ \ 'version \ 'due_date).writeNullable[LocalDate](dateWrites) ~
-      (__ \ 'version \ 'description).write[String]
+      (__ \ 'version \ 'description).writeNullable[String]
     ).tupled
-  implicit val versionUpdateWrites = versionCreateWrites
+  implicit val versionUpdateWrites = (
+    (__ \ 'version \ 'name).writeNullable[String] ~
+      (__ \ 'version \ 'status).writeNullable[Status] ~
+      (__ \ 'version \ 'sharing).writeNullable[Sharing] ~
+      (__ \ 'version \ 'due_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'version \ 'description).writeNullable[String]
+    ).tupled
   implicit val versionStatusReads: Reads[Status] = JsPath.read[String].map(Status.fromString)
   implicit val versionSharingReads: Reads[Sharing] = JsPath.read[String].map(Sharing.fromString)
   implicit val versionStatusWrites: Writes[Status] = JsPath.write[String].contramap(_.toString)

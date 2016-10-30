@@ -10,7 +10,7 @@ import redmine4s.api.model._
   */
 trait IssueResource extends BaseResource {
   private def applyRedmineToIssue: PartialFunction[Issue, Issue] = {
-    case p: Issue =>      p.copy(redmine = redmine, attachments = p.attachments.map(_.map(_.copy(redmine = redmine))))
+    case p: Issue => p.copy(redmine = redmine, attachments = p.attachments.map(_.map(_.copy(redmine = redmine))))
   }
 
   /** Listing issues */

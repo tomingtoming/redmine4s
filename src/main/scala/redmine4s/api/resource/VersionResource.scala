@@ -19,7 +19,12 @@ trait VersionResource extends BaseResource {
   }
 
   /** Creates a version for the project of given id or identifier. */
-  def createVersion(projectId: String, name: String, status: Status = Status.Open, sharing: Sharing = Sharing.None, dueDate: Option[LocalDate] = None, description: String = ""): Version = {
+  def createVersion(projectId: String,
+                    name: String,
+                    status: Option[Status] = None,
+                    sharing: Option[Sharing] = None,
+                    dueDate: Option[LocalDate] = None,
+                    description: Option[String] = None): Version = {
     import redmine4s.api.json.JsonHelper.{versionCreateWrites, versionReads}
     create(s"/projects/$projectId/versions.json", __ \ 'version, (name, status, sharing, dueDate, description)).copy(redmine = redmine)
   }
@@ -31,7 +36,12 @@ trait VersionResource extends BaseResource {
   }
 
   /** Updates the version of given id. */
-  def updateVersion(versionId: Long, name: String, status: Status = Status.Open, sharing: Sharing = Sharing.None, dueDate: Option[LocalDate] = None, description: String = ""): Version = {
+  def updateVersion(versionId: Long,
+                    name: Option[String] = None,
+                    status: Option[Status] = None,
+                    sharing: Option[Sharing] = None,
+                    dueDate: Option[LocalDate] = None,
+                    description: Option[String] = None): Version = {
     import redmine4s.api.json.JsonHelper.versionUpdateWrites
     update(s"/versions/$versionId.json", (name, status, sharing, dueDate, description))
     showVersion(versionId)

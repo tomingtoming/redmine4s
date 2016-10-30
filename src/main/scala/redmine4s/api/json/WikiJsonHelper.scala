@@ -28,4 +28,10 @@ trait WikiJsonHelper extends AttachmentJsonHelper {
     ) { (title, parent, version, createdOn, updatedOn, text, author, comments, attachments) =>
     Wiki(title, parent, version, createdOn, updatedOn, text, author, comments, attachments, 0L, null)
   }
+  implicit val wikiUpdateWrites = (
+    (__ \ 'wiki_page \ 'text).writeNullable[String] ~
+      (__ \ 'wiki_page \ 'comments).writeNullable[String] ~
+      (__ \ 'wiki_page \ 'version).writeNullable[Int] ~
+      (__ \ 'attachments).writeNullable[Seq[UploadedFile]]
+    ).tupled
 }

@@ -4,7 +4,30 @@ import org.joda.time.{DateTime, LocalDate}
 import redmine4s.Redmine
 import redmine4s.api.resource.ResourceException
 
-case class Version(id: Long, project: (Long, String), name: String, description: String, dueDate: Option[LocalDate], status: Status, sharing: Sharing, createdOn: DateTime, updatedOn: DateTime, customField: Option[Seq[CustomFieldValue]], redmine: Redmine)
+case class Version(id: Long,
+                   project: (Long, String),
+                   name: String,
+                   description: String,
+                   dueDate: Option[LocalDate],
+                   status: Status,
+                   sharing: Sharing,
+                   createdOn: DateTime,
+                   updatedOn: DateTime,
+                   customField: Option[Seq[CustomFieldValue]],
+                   redmine: Redmine) {
+  /** Returns the version of given id. */
+  def show(): Version = redmine.showVersion(id)
+
+  /** Updates the version of given id. */
+  def update(name: Option[String] = None,
+             status: Option[Status] = None,
+             sharing: Option[Sharing] = None,
+             dueDate: Option[LocalDate] = None,
+             description: Option[String] = None): Version = redmine.updateVersion(id, name, status, sharing, dueDate, description)
+
+  /** Deletes the version of given id. */
+  def delete(): Unit = redmine.deleteVersion(id)
+}
 
 sealed trait Status
 
