@@ -99,6 +99,28 @@ trait BaseResource {
     }
   }
 
+  protected def add[T](url: String, targetJsPath: JsPath, params: T)(implicit jsw: Writes[T]): Unit = {
+    val post = new HttpPost(configuration.baseUrl + url)
+    authorization.foreach { auth => post.addHeader(auth.header._1, auth.header._2) }
+    val requestJson = Json.toJson(params)
+    post.setEntity(new StringEntity(requestJson.toString(), ContentType.APPLICATION_JSON))
+    val response = httpClient.execute(post)
+    try {
+      response.getStatusLine.getStatusCode match {
+        case 201 /*Created*/ =>
+          logger.debug(s"url=$url, requestJson=$requestJson")
+        case 403 /*Forbidden*/ =>
+          logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
+          throw new ForbiddenException(response.getStatusLine.toString)
+        case n =>
+          logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
+          throw new ResourceException(response.getStatusLine.toString)
+      }
+    } finally {
+      HttpClientUtils.closeQuietly(response)
+    }
+  }
+
   protected def create[T, U](url: String, targetJsPath: JsPath, params: T)(implicit jsw: Writes[T], jsr: Reads[U]): U = {
     val post = new HttpPost(configuration.baseUrl + url)
     authorization.foreach { auth => post.addHeader(auth.header._1, auth.header._2) }

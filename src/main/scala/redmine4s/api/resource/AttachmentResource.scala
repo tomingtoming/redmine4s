@@ -61,7 +61,10 @@ trait AttachmentResource extends BaseResource {
     upload(filename, contentType, new InputStreamEntity(in))
   }
 
-  def upload(filename: String, contentType: String, httpEntity: HttpEntity): UploadedFile = {
+  /**
+    * Internal upload method depend on HttpClient.
+    */
+  private def upload(filename: String, contentType: String, httpEntity: HttpEntity): UploadedFile = {
     val post = new HttpPost(configuration.baseUrl + "/uploads.json")
     authorization.foreach { auth => post.addHeader(auth.header._1, auth.header._2) }
     post.addHeader("Content-Type", "application/octet-stream")

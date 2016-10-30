@@ -5,9 +5,9 @@ Redmine client for Scala
 
 | Resource                    | Implements   |
 |-----------------------------|:------------:|
-| Issues                      |              |
+| Issues                      | 100%(7/7)    |
 | Projects                    |              |
-| Project Memberships         |              |
+| Project Memberships         | 100%(5/5)    |
 | Users                       |              |
 | Time Entries                |              |
 | News                        | 100%(2/2)    |
