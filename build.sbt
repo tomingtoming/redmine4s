@@ -14,6 +14,7 @@ libraryDependencies := Seq(
   "org.apache.httpcomponents" % "httpclient" % "4.5.2",
   // Java Test
   "ch.qos.logback" % "logback-classic" % "1.1.7" % Test,
+  "org.mockito" % "mockito-core" % "1.10.19" % Test,
   // Scala Test
   "org.scalatest" %% "scalatest" % "3.0.0" % Test
 )
