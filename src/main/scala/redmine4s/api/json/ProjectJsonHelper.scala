@@ -63,7 +63,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'project \ 'homepage).writeNullable[String] ~
       (__ \ 'project \ 'is_public).writeNullable[Boolean] ~
       (__ \ 'project \ 'parent_id).writeNullable[Long] ~
-      (__ \ 'project \ 'custom_fields).writeNullable[Seq[CustomFieldValue]] ~
+      (__ \ 'project \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
       (__ \ 'project \ 'inherit_members).writeNullable[Boolean] ~
       (__ \ 'project \ 'trackers_ids).writeNullable[Seq[Long]] ~
       (__ \ 'project \ 'issue_categories).writeNullable[Seq[Long]] ~
@@ -75,7 +75,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'project \ 'homepage).writeNullable[String] ~
       (__ \ 'project \ 'is_public).writeNullable[Boolean] ~
       (__ \ 'project \ 'parent_id).writeNullable[Long] ~
-      (__ \ 'project \ 'custom_fields).writeNullable[Seq[CustomFieldValue]] ~
+      (__ \ 'project \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
       (__ \ 'project \ 'inherit_members).writeNullable[Boolean] ~
       (__ \ 'project \ 'trackers_ids).writeNullable[Seq[Long]] ~
       (__ \ 'project \ 'issue_categories).writeNullable[Seq[Long]] ~

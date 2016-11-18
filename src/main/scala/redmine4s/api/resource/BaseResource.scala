@@ -14,8 +14,10 @@ trait BaseResource {
   protected val logger: Logger
   protected val redmine: Redmine
   protected val configuration: Configuration
-  protected val httpClient: HttpClient = configuration.httpClient
-  protected val authorization: Option[Authorization] = Authorization.fromConfiguration(configuration)
+
+  protected def httpClient: HttpClient = configuration.httpClient
+
+  protected def authorization: Option[Authorization] = Authorization.fromConfiguration(configuration)
 
   protected def list[T](url: String, targetJsPath: JsPath, params: Map[String, String])(implicit fjs: Reads[T]): Iterator[T] = {
     new Iterator[T] {

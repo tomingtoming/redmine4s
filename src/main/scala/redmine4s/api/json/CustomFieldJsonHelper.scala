@@ -28,11 +28,10 @@ trait CustomFieldJsonHelper extends BaseJsonHelper {
   implicit val customFieldValueReads: Reads[CustomFieldValue] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
-      (__ \ 'value).read[String]
+      (__ \ 'value).readNullable[String]
     ) (CustomFieldValue.apply _)
-  implicit val customFieldValueWrites: Writes[CustomFieldValue] = (
+  implicit val customFieldValueWrites: Writes[(Long, String)] = (
     (__ \ 'id).write[Long] ~
-      (__ \ 'name).write[String] ~
       (__ \ 'value).write[String]
-    ) (unlift(CustomFieldValue.unapply))
+    ) { x => x }
 }

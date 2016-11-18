@@ -15,4 +15,4 @@ case class CustomField(id: Long,
                        visible:Boolean,
                        possibleValues:Option[Seq[(String, String)]])
 
-case class CustomFieldValue(id: Long, name: String, value: String)
+case class CustomFieldValue(id: Long, name: String, value: Option[String])

@@ -28,7 +28,7 @@ sealed trait Project {
              homepage: Option[String] = None,
              isPublic: Option[Boolean] = None,
              parent: Option[Long] = None,
-             customField: Option[Seq[CustomFieldValue]] = None,
+             customField: Option[Seq[(Long, String)]] = None,
              inheritMembers: Option[Boolean] = None,
              trackers: Option[Seq[Long]] = None,
              issueCategories: Option[Seq[Long]] = None,
