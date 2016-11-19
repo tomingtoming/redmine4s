@@ -15,11 +15,11 @@ trait GroupJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHe
     Group(id, name, users, memberships, customField, null)
   }
   implicit val groupCreateWrites = (
-    (__ \ 'name).write[String] ~
-      (__ \ 'users).writeNullable[Seq[Long]]
+    (__ \ 'group \ 'name).write[String] ~
+      (__ \ 'group \ 'users).writeNullable[Seq[Long]]
     ).tupled
   implicit val groupUpdateWrites = (
-    (__ \ 'name).writeNullable[String] ~
-      (__ \ 'users).writeNullable[Seq[Long]]
+    (__ \ 'group \ 'name).writeNullable[String] ~
+      (__ \ 'group \ 'users).writeNullable[Seq[Long]]
     ).tupled
 }
