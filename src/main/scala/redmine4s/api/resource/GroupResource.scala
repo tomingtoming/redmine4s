@@ -33,19 +33,19 @@ trait GroupResource extends BaseResource {
   /** Updates an existing group. */
   def updateGroup(groupId: Long, name: Option[String] = None, ids: Option[Seq[Long]] = None): Group = {
     import redmine4s.api.json.JsonHelper.groupUpdateWrites
-    update(s"/groups./$groupId.json", (name, ids))
+    update(s"/groups/$groupId.json", (name, ids))
     showGroup(groupId)
   }
 
   /** Deletes an existing group. */
-  def deleteGroup(groupId: Long): Unit = delete(s"/groups./$groupId.json")
+  def deleteGroup(groupId: Long): Unit = delete(s"/groups/$groupId.json")
 
   /** Adds an existing user to a group. */
   def addUserToGroup(userId: Long, groupId: Long): Group = {
     import redmine4s.api.json.JsonHelper.groupReads
-    applyRedmineToGroup(create(s"/groups./$groupId/users.json", __ \ 'user_id, userId))
+    applyRedmineToGroup(create(s"/groups/$groupId/users.json", __ \ 'user_id, userId))
   }
 
   /** Adds an existing user to a group. */
-  def deleteUserFromGroup(userId: Long, groupId: Long): Unit = delete(s"/groups./$groupId/users/$userId.json")
+  def deleteUserFromGroup(userId: Long, groupId: Long): Unit = delete(s"/groups/$groupId/users/$userId.json")
 }
