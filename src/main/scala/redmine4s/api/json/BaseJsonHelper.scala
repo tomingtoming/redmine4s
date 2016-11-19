@@ -12,7 +12,7 @@ trait BaseJsonHelper {
   implicit val idNameReads: Reads[(Long, String)] = (
     (__ \ 'id).read[Long] and (__ \ 'name).read[String]
     ) { (id, name) => (id, name) }
-  val idValueWrites: Writes[(Long, String)] = (
+  implicit val idValueWrites: Writes[(Long, String)] = (
     (__ \ 'id).write[Long] ~ (__ \ 'value).write[String]
     ).tupled
 }
