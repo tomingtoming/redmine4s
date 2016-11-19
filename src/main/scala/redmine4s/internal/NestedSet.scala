@@ -1,9 +1,11 @@
 package redmine4s.internal
 
 object NestedSet {
+
   case class Node[T](id: T, root: T, left: Long, right: Long)
 
   type ParentsToChildren[T] = Map[T, Set[T]]
+
   implicit class RichParentsToChildren[T](parentsToChildren: ParentsToChildren[T]) {
     def generateNodes(id: T, root: T, left: Long): (List[Node[T]], Long) = {
       val (subNodes, right) = parentsToChildren.get(id) match {
@@ -28,6 +30,7 @@ object NestedSet {
   }
 
   type ChildrenToParents[T] = Map[T, Option[T]]
+
   implicit class RichChildrenToParent[T](childrenToParents: ChildrenToParents[T]) {
     def convertToParentsToChildren: ParentsToChildren[T] = {
       def _convertToParentsToChildren(root: Option[T], childrenToParents: ChildrenToParents[T]): ParentsToChildren[T] = {
@@ -48,4 +51,5 @@ object NestedSet {
       childrenToParents.convertToParentsToChildren.generateNodes(roots)
     }
   }
+
 }

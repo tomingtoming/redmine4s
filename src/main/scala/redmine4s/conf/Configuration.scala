@@ -13,6 +13,7 @@ object Configuration {
     } yield (user, password)
     override val apiKey: Option[String] = sys.env.get("REDMINE_APIKEY")
   }
+
   def fromConfig(config: Config): Configuration = new Configuration {
     override val baseUrl: String = config.getString("base_url")
     override val userPassword: Option[(String, String)] = for {
@@ -25,7 +26,10 @@ object Configuration {
 
 trait Configuration {
   def baseUrl: String
+
   def userPassword: Option[(String, String)] = None
+
   def apiKey: Option[String] = None
+
   def httpClient: HttpClient = HttpClients.createDefault()
 }

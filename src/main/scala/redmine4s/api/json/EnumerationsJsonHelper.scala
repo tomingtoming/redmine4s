@@ -4,7 +4,7 @@ import play.api.libs.functional.syntax._
 import play.api.libs.json._
 import redmine4s.api.model.{IssuePriority, TimeEntryActivity}
 
-trait  EnumerationsJsonHelper {
+trait EnumerationsJsonHelper {
   implicit val issuePriorityReads: Reads[IssuePriority] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
