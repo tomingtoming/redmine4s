@@ -2,7 +2,7 @@ package redmine4s.api.model
 
 import redmine4s.Redmine
 
-case class ProjectMembership(id: Long, project: (Long, String), user: Option[(Long, String)], group: Option[(Long, String)], roles: Iterable[Role], redmine:Redmine) {
+case class ProjectMembership(id: Long, project: (Long, String), user: Option[(Long, String)], group: Option[(Long, String)], roles: Iterable[Role], redmine: Redmine) {
   /** Returns the membership of given id. */
   def show(): ProjectMembership = redmine.showProjectMembership(id)
 

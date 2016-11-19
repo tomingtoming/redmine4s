@@ -9,7 +9,5 @@ trait TrackerJsonHelper extends BaseJsonHelper {
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'default_status).readNullable[(Long, String)]
-    ) { (id: Long, name: String, defaultStatus: Option[(Long, String)]) =>
-    Tracker(id, name, defaultStatus, null)
-  }
+    ) (Tracker.apply _)
 }

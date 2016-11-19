@@ -54,54 +54,48 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
       Issue(x._1, x._2, x._3, x._4, x._5, x._6, x._7, x._8, x._9, x._10, y._1, y._2, y._3, y._4, y._5, y._6, y._7, y._8, y._9, y._10, y._11, y._12, y._13, y._14, y._15, y._16, y._17, y._18, null)
     }
   }
-  implicit val issueCreateWrites = {
-    implicit val ivw = idValueWrites
-    (
-      (__ \ 'issue \ 'subject).write[String] ~
-        (__ \ 'issue \ 'project_id).write[Long] ~
-        (__ \ 'issue \ 'tracker_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'status_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'priority_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'description).writeNullable[String] ~
-        (__ \ 'issue \ 'done_ratio).writeNullable[Int] ~
-        (__ \ 'issue \ 'category_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'start_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'due_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'actual_start_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'actual_due_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'fixed_version_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'assigned_to_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'parent_issue_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
-        (__ \ 'issue \ 'watcher_user_ids).writeNullable[Seq[Long]] ~
-        (__ \ 'issue \ 'is_private).writeNullable[Boolean] ~
-        (__ \ 'issue \ 'estimated_hours).writeNullable[Double] ~
-        (__ \ 'issue \ 'uploads).writeNullable[Seq[UploadedFile]]
-      ).tupled
-  }
-  implicit val issueUpdateWrites = {
-    implicit val ivw = idValueWrites
-    (
-      (__ \ 'issue \ 'subject).writeNullable[String] ~
-        (__ \ 'issue \ 'project_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'tracker_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'status_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'priority_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'description).writeNullable[String] ~
-        (__ \ 'issue \ 'done_ratio).writeNullable[Int] ~
-        (__ \ 'issue \ 'category_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'start_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'due_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'actual_start_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'actual_due_date).writeNullable[LocalDate](dateWrites) ~
-        (__ \ 'issue \ 'fixed_version_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'assigned_to_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'parent_issue_id).writeNullable[Long] ~
-        (__ \ 'issue \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
-        (__ \ 'issue \ 'watcher_user_ids).writeNullable[Seq[Long]] ~
-        (__ \ 'issue \ 'is_private).writeNullable[Boolean] ~
-        (__ \ 'issue \ 'estimated_hours).writeNullable[Double] ~
-        (__ \ 'issue \ 'uploads).writeNullable[Seq[UploadedFile]]
-      ).tupled
-  }
+  implicit val issueCreateWrites = (
+    (__ \ 'issue \ 'subject).write[String] ~
+      (__ \ 'issue \ 'project_id).write[Long] ~
+      (__ \ 'issue \ 'tracker_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'status_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'priority_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'description).writeNullable[String] ~
+      (__ \ 'issue \ 'done_ratio).writeNullable[Int] ~
+      (__ \ 'issue \ 'category_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'start_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'due_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'actual_start_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'actual_due_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'fixed_version_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'assigned_to_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'parent_issue_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
+      (__ \ 'issue \ 'watcher_user_ids).writeNullable[Seq[Long]] ~
+      (__ \ 'issue \ 'is_private).writeNullable[Boolean] ~
+      (__ \ 'issue \ 'estimated_hours).writeNullable[Double] ~
+      (__ \ 'issue \ 'uploads).writeNullable[Seq[UploadedFile]]
+    ).tupled
+  implicit val issueUpdateWrites = (
+    (__ \ 'issue \ 'subject).writeNullable[String] ~
+      (__ \ 'issue \ 'project_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'tracker_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'status_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'priority_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'description).writeNullable[String] ~
+      (__ \ 'issue \ 'done_ratio).writeNullable[Int] ~
+      (__ \ 'issue \ 'category_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'start_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'due_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'actual_start_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'actual_due_date).writeNullable[LocalDate](dateWrites) ~
+      (__ \ 'issue \ 'fixed_version_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'assigned_to_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'parent_issue_id).writeNullable[Long] ~
+      (__ \ 'issue \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
+      (__ \ 'issue \ 'watcher_user_ids).writeNullable[Seq[Long]] ~
+      (__ \ 'issue \ 'is_private).writeNullable[Boolean] ~
+      (__ \ 'issue \ 'estimated_hours).writeNullable[Double] ~
+      (__ \ 'issue \ 'uploads).writeNullable[Seq[UploadedFile]]
+    ).tupled
 }
