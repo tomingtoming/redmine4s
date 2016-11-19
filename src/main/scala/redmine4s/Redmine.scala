@@ -6,6 +6,7 @@ import redmine4s.conf.Configuration
 
 class Redmine(val configuration: Configuration)
   extends AttachmentResource
+    with CustomFieldResource
     with BaseResource
     with EnumerationResource
     with GroupResource
