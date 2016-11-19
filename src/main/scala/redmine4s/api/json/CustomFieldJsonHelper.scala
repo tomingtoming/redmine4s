@@ -2,6 +2,7 @@ package redmine4s.api.json
 
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
+import play.api.libs.json.Reads.pure
 import redmine4s.api.model._
 
 trait CustomFieldJsonHelper extends BaseJsonHelper {
@@ -15,13 +16,13 @@ trait CustomFieldJsonHelper extends BaseJsonHelper {
       (__ \ 'customized_type).read[String] ~
       (__ \ 'field_format).read[String] ~
       (__ \ 'regexp).read[String] ~
-      (__ \ 'min_length).read[Int] ~
-      (__ \ 'max_length).read[Int] ~
-      (__ \ 'is_required).read[Boolean] ~
-      (__ \ 'is_filter).read[Boolean] ~
-      (__ \ 'searchable).read[Boolean] ~
-      (__ \ 'multiple).read[Boolean] ~
-      (__ \ 'defaultValue).read[String] ~
+      (__ \ 'min_length).readNullable[Int] ~
+      (__ \ 'max_length).readNullable[Int] ~
+      ((__ \ 'is_required).read[Boolean] or pure(false)) ~
+      ((__ \ 'is_filter).read[Boolean] or pure(false)) ~
+      ((__ \ 'searchable).read[Boolean] or pure(false)) ~
+      ((__ \ 'multiple).read[Boolean] or pure(false)) ~
+      (__ \ 'default_value).readNullable[String] ~
       (__ \ 'visible).read[Boolean] ~
       (__ \ 'possibleValues).readNullable[Seq[(String, String)]]
     ) (CustomField.apply _)

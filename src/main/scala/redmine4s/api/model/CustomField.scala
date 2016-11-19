@@ -5,14 +5,14 @@ case class CustomField(id: Long,
                        customizedType: String,
                        fieldFormat: String,
                        regexp: String,
-                       minLength: Int,
-                       maxLength: Int,
+                       minLength: Option[Int],
+                       maxLength: Option[Int],
                        isRequired: Boolean,
                        isFilter: Boolean,
                        searchable: Boolean,
-                       multiple:Boolean,
-                       defaultValue:String,
-                       visible:Boolean,
-                       possibleValues:Option[Seq[(String, String)]])
+                       multiple: Boolean,
+                       defaultValue: Option[String],
+                       visible: Boolean,
+                       possibleValues: Option[Seq[(String, String)]])
 
 case class CustomFieldValue(id: Long, name: String, value: Option[String])
