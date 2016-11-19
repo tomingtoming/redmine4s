@@ -8,22 +8,26 @@ import redmine4s.api.model.Group
   * http://www.redmine.org/projects/redmine/wiki/Rest_Groups
   */
 trait GroupResource extends BaseResource {
+  private def applyRedmineToGroup: PartialFunction[Group, Group] = {
+    case p: Group => p.copy(redmine = redmine, memberships = p.memberships.map(_.map(_.copy(redmine = redmine))))
+  }
+
   /** Returns the list of groups. */
   def listGroups(): Iterable[Group] = {
     import redmine4s.api.json.JsonHelper.groupReads
-    list("/groups.json", __ \ 'groups, Map.empty).toIterable
+    list("/groups.json", __ \ 'groups, Map.empty).map(applyRedmineToGroup).toIterable
   }
 
   /** Creates a group. */
   def createGroup(name: String, ids: Option[Seq[Long]] = None): Group = {
     import redmine4s.api.json.JsonHelper.{groupCreateWrites, groupReads}
-    create("/groups.json", __ \ 'group, (name, ids))
+    applyRedmineToGroup(create("/groups.json", __ \ 'group, (name, ids)))
   }
 
   /** Returns details of a group. */
   def showGroup(groupId: Long): Group = {
     import redmine4s.api.json.JsonHelper.groupReads
-    show(s"/groups/$groupId.json", __ \ 'group, Map("include" -> "users,memberships"))
+    applyRedmineToGroup(show(s"/groups/$groupId.json", __ \ 'group, Map("include" -> "users,memberships")))
   }
 
   /** Updates an existing group. */
@@ -39,7 +43,7 @@ trait GroupResource extends BaseResource {
   /** Adds an existing user to a group. */
   def addUserToGroup(userId: Long, groupId: Long): Group = {
     import redmine4s.api.json.JsonHelper.groupReads
-    create(s"/groups./$groupId/users.json", __ \ 'user_id, userId)
+    applyRedmineToGroup(create(s"/groups./$groupId/users.json", __ \ 'user_id, userId))
   }
 
   /** Adds an existing user to a group. */

@@ -13,6 +13,8 @@ case class User(id: Long,
                 groups: Option[Seq[(Long, String)]],
                 memberships: Option[Seq[ProjectMembership]],
                 customField: Option[Seq[CustomFieldValue]],
+                apiKey: Option[String],
+                status: Option[Int],
                 redmine: Redmine) {
   /** Returns the user details. */
   def show(): User = redmine.showUser(id)

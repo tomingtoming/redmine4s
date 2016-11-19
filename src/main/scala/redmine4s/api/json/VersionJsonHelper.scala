@@ -6,6 +6,10 @@ import play.api.libs.json._
 import redmine4s.api.model._
 
 trait VersionJsonHelper extends CustomFieldJsonHelper {
+  implicit val versionStatusReads: Reads[Status] = JsPath.read[String].map(Status.fromString)
+  implicit val versionSharingReads: Reads[Sharing] = JsPath.read[String].map(Sharing.fromString)
+  implicit val versionStatusWrites: Writes[Status] = JsPath.write[String].contramap(_.toString)
+  implicit val versionSharingWrites: Writes[Sharing] = JsPath.write[String].contramap(_.toString)
   implicit val versionReads: Reads[Version] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'project).read[(Long, String)] ~
@@ -34,8 +38,4 @@ trait VersionJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'version \ 'due_date).writeNullable[LocalDate](dateWrites) ~
       (__ \ 'version \ 'description).writeNullable[String]
     ).tupled
-  implicit val versionStatusReads: Reads[Status] = JsPath.read[String].map(Status.fromString)
-  implicit val versionSharingReads: Reads[Sharing] = JsPath.read[String].map(Sharing.fromString)
-  implicit val versionStatusWrites: Writes[Status] = JsPath.write[String].contramap(_.toString)
-  implicit val versionSharingWrites: Writes[Sharing] = JsPath.write[String].contramap(_.toString)
 }

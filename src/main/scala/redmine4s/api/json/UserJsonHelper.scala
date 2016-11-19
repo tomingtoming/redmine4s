@@ -16,9 +16,11 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'groups).readNullable[Seq[(Long, String)]] ~
       (__ \ 'memberships).readNullable[Seq[ProjectMembership]] ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
-    ) { (id: Long, login: String, lastname: String, firstname: String, mail: String, lastLoginOn: Option[DateTime], createdOn: DateTime, groups: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Option[Seq[CustomFieldValue]]) =>
-    User(id, login, lastname, firstname, mail, lastLoginOn, createdOn, groups, memberships, customField, null)
+      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
+      (__ \ 'api_key).readNullable[String] ~
+      (__ \ 'status).readNullable[Int]
+    ) { (id: Long, login: String, lastname: String, firstname: String, mail: String, lastLoginOn: Option[DateTime], createdOn: DateTime, groups: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Option[Seq[CustomFieldValue]], apiKey: Option[String], status: Option[Int]) =>
+    User(id, login, lastname, firstname, mail, lastLoginOn, createdOn, groups, memberships, customField, apiKey, status, null)
   }
   implicit val userCreateWrites = (
     (__ \ 'user \ 'login).write[String] ~

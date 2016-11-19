@@ -1,8 +1,18 @@
 package redmine4s.api.model
 
-import org.joda.time.{DateTime, LocalDate}
+import org.joda.time.DateTime
 import org.slf4j.{Logger, LoggerFactory}
 import redmine4s.Redmine
+
+object Project {
+
+  object Status {
+    val Open = 1
+    val Closed = 5
+    val Archived = 9
+  }
+
+}
 
 sealed trait Project {
   protected val logger: Logger
@@ -13,6 +23,7 @@ sealed trait Project {
   val description: Option[String]
   val homepage: Option[String]
   val isPublic: Boolean
+  val status: Int
   val parent: Option[(Long, String)]
   val createdOn: DateTime
   val updatedOn: DateTime
@@ -28,7 +39,7 @@ sealed trait Project {
              homepage: Option[String] = None,
              isPublic: Option[Boolean] = None,
              parent: Option[Long] = None,
-             customField: Option[Seq[(Long, String)]] = None,
+             customField: Option[Seq[CustomFieldValue]] = None,
              inheritMembers: Option[Boolean] = None,
              trackers: Option[Seq[Long]] = None,
              issueCategories: Option[Seq[Long]] = None,
@@ -50,6 +61,10 @@ sealed trait Project {
   def indexWikis(): Iterable[WikiIndex] = redmine.indexWikis(this.id)
 
   def listNews(): Iterable[News] = redmine.listNews(this.id)
+
+  def isOpen(): Boolean = this.status == Project.Status.Open
+
+  def isClosed(): Boolean = this.status == Project.Status.Closed
 }
 
 trait ProjectDetail extends Project {
@@ -62,6 +77,7 @@ case class ProjectSummary(id: Long,
                           description: Option[String],
                           homepage: Option[String],
                           isPublic: Boolean,
+                          status: Int,
                           parent: Option[(Long, String)],
                           createdOn: DateTime,
                           updatedOn: DateTime,
@@ -76,6 +92,7 @@ case class ProjectDetail25(id: Long,
                            description: Option[String],
                            homepage: Option[String],
                            isPublic: Boolean,
+                           status: Int,
                            parent: Option[(Long, String)],
                            createdOn: DateTime,
                            updatedOn: DateTime,
@@ -92,6 +109,7 @@ case class ProjectDetail26(id: Long,
                            description: Option[String],
                            homepage: Option[String],
                            isPublic: Boolean,
+                           status: Int,
                            parent: Option[(Long, String)],
                            createdOn: DateTime,
                            updatedOn: DateTime,

@@ -11,7 +11,9 @@ trait GroupJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHe
       (__ \ 'users).readNullable[Seq[(Long, String)]] ~
       (__ \ 'memberships).readNullable[Seq[ProjectMembership]] ~
       (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
-    ) (Group.apply _)
+    ) { (id: Long, name: String, users: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Option[Seq[CustomFieldValue]]) =>
+    Group(id, name, users, memberships, customField, null)
+  }
   implicit val groupCreateWrites = (
     (__ \ 'name).write[String] ~
       (__ \ 'users).writeNullable[Seq[Long]]

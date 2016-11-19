@@ -33,5 +33,5 @@ trait CustomFieldJsonHelper extends BaseJsonHelper {
   implicit val customFieldValueWrites: Writes[(Long, String)] = (
     (__ \ 'id).write[Long] ~
       (__ \ 'value).write[String]
-    ) { x => x }
+    ).tupled
 }

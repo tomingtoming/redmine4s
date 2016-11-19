@@ -11,21 +11,23 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'name).read[String] ~
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
-      (__ \ 'is_public).read[Boolean](false) ~
+      (__ \ 'is_public).readNullable[Boolean] ~
+      (__ \ 'status).read[Int] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       (__ \ 'identifier).read[String] ~
       (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
-    ) { (id, name, description, homepage, isPublic, parent, createdOn, updatedOn, identifier, customField) =>
-    ProjectSummary(id, name, description, homepage, isPublic, parent, createdOn, updatedOn, identifier, customField, null)
+    ) { (id, name, description, homepage, isPublicOpt, status, parent, createdOn, updatedOn, identifier, customField) =>
+    ProjectSummary(id, name, description, homepage, isPublicOpt.getOrElse(false), status, parent, createdOn, updatedOn, identifier, customField, null)
   }
   val projectDetail25Reads: Reads[Project] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
-      (__ \ 'is_public).read[Boolean](false) ~
+      (__ \ 'is_public).readNullable[Boolean] ~
+      (__ \ 'status).read[Int] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
@@ -33,15 +35,16 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
       (__ \ 'trackers).read[Seq[(Long, String)]] ~
       (__ \ 'issue_categories).read[Seq[(Long, String)]]
-    ) { (id, name, description, homepage, isPublic, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField) =>
-    ProjectDetail25(id, name, description, homepage, isPublic, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField, null)
+    ) { (id, name, description, homepage, isPublicOpt, status, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField) =>
+    ProjectDetail25(id, name, description, homepage, isPublicOpt.getOrElse(false), status, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField, null)
   }
   val projectDetail26Reads: Reads[Project] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
-      (__ \ 'is_public).read[Boolean](false) ~
+      (__ \ 'is_public).readNullable[Boolean] ~
+      (__ \ 'status).read[Int] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
@@ -50,8 +53,8 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'trackers).read[Seq[(Long, String)]] ~
       (__ \ 'issue_categories).read[Seq[(Long, String)]] ~
       (__ \ 'enabled_modules).read[Seq[String]]
-    ) { (id, name, description, homepage, isPublic, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules) =>
-    ProjectDetail26(id, name, description, homepage, isPublic, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules, null)
+    ) { (id, name, description, homepage, isPublicOpt, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules) =>
+    ProjectDetail26(id, name, description, homepage, isPublicOpt.getOrElse(false), status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules, null)
   }
   implicit val projectReads: Reads[Project] = {
     projectDetail26Reads orElse projectDetail25Reads orElse projectSummaryReads

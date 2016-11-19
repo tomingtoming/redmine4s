@@ -8,15 +8,15 @@ trait  EnumerationsJsonHelper {
   implicit val issuePriorityReads: Reads[IssuePriority] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
-      (__ \ 'is_default).read[Boolean](false)
-    ) { (id: Long, name: String, isDefault: Boolean) =>
-    IssuePriority(id, name, isDefault, null)
+      (__ \ 'is_default).readNullable[Boolean]
+    ) { (id: Long, name: String, isDefaultOpt: Option[Boolean]) =>
+    IssuePriority(id, name, isDefaultOpt.getOrElse(false), null)
   }
   implicit val timeEntryActivitiesReads: Reads[TimeEntryActivity] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
-      (__ \ 'is_default).read[Boolean](false)
-    ) { (id: Long, name: String, isDefault: Boolean) =>
-    TimeEntryActivity(id, name, isDefault, null)
+      (__ \ 'is_default).readNullable[Boolean]
+    ) { (id: Long, name: String, isDefaultOpt: Option[Boolean]) =>
+    TimeEntryActivity(id, name, isDefaultOpt.getOrElse(false), null)
   }
 }

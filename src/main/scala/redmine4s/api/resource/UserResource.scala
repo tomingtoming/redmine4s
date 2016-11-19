@@ -13,9 +13,9 @@ trait UserResource extends BaseResource {
   }
 
   /** Returns a list of users. */
-  def listUsers(): Iterable[User] = {
+  def listUsers(params: Map[String, String] = Map.empty): Iterable[User] = {
     import redmine4s.api.json.JsonHelper.userReads
-    list("/users.json", __ \ 'users, Map.empty).map(applyRedmineToUser).toIterable
+    list("/users.json", __ \ 'users, params).map(applyRedmineToUser).toIterable
   }
 
   /** Creates a user. */
