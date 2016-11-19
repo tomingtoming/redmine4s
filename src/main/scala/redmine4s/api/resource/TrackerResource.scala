@@ -11,6 +11,6 @@ import redmine4s.api.model.Tracker
 trait TrackerResource extends BaseResource {
   /** Returns the list of all trackers. */
   def listTrackers(): Iterable[Tracker] = {
-    list("/trackers.json", __ \ 'trackers, Map.empty).map(_.copy(redmine = redmine)).toIterable
+    list("/trackers.json", __ \ 'trackers, Map.empty).toIterable
   }
 }
