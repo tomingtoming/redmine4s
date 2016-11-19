@@ -1,7 +1,7 @@
 package redmine4s.api.resource
 
 import play.api.libs.json._
-import redmine4s.api.model.IssueRelation
+import redmine4s.api.model.{IssueRelation, RelationType}
 
 /**
   * Issue Relations
@@ -15,7 +15,7 @@ trait IssueRelationResource extends BaseResource {
   }
 
   /** Creates a relation for the issue of given id. */
-  def createIssueRelation(issueId: Long, issueToId: Long, relationType: String, delay: Option[Int] = None): IssueRelation = {
+  def createIssueRelation(issueId: Long, issueToId: Long, relationType: RelationType, delay: Option[Int] = None): IssueRelation = {
     import redmine4s.api.json.JsonHelper.{issueRelationCreateWrites, issueRelationReads}
     create(s"/issues/$issueId/relations.json", __ \ 'relation, (issueToId, relationType, delay))
   }
