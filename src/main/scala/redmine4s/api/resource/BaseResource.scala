@@ -43,10 +43,6 @@ trait BaseResource {
             case 403 /*Forbidden*/ =>
               logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
               throw new ForbiddenException(response.getStatusLine.toString)
-            case 422 /*Unprocessable Entity*/ =>
-              val responseJson = Json.parse(response.getEntity.getContent)
-              logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
-              throw new UnprocessableEntityException(response.getStatusLine.toString)
             case n =>
               logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
               throw new ResourceException(response.getStatusLine.toString)
@@ -94,10 +90,6 @@ trait BaseResource {
         case 404 /*Not Found*/ =>
           logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
           throw new NotFoundException(response.getStatusLine.toString)
-        case 422 /*Unprocessable Entity*/ =>
-          val responseJson = Json.parse(response.getEntity.getContent)
-          logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
-          throw new UnprocessableEntityException(response.getStatusLine.toString)
         case n =>
           logger.error(s"url=$url, status_line=${response.getStatusLine.toString}")
           throw new ResourceException(response.getStatusLine.toString)
@@ -123,7 +115,7 @@ trait BaseResource {
         case 422 /*Unprocessable Entity*/ =>
           val responseJson = Json.parse(response.getEntity.getContent)
           logger.error(s"url=$url, requestJson=$requestJson, status_line=${response.getStatusLine.toString}, responseJson=$responseJson")
-          throw new UnprocessableEntityException(response.getStatusLine.toString)
+          throw new UnprocessableEntityException(s"status_line=${response.getStatusLine.toString}, responseJson=$responseJson")
         case n =>
           logger.error(s"url=$url, requestJson=$requestJson, status_line=${response.getStatusLine.toString}")
           throw new ResourceException(response.getStatusLine.toString)
@@ -154,7 +146,7 @@ trait BaseResource {
         case 422 /*Unprocessable Entity*/ =>
           val responseJson = Json.parse(response.getEntity.getContent)
           logger.error(s"url=$url, requestJson=$requestJson, status_line=${response.getStatusLine.toString}, responseJson=$responseJson")
-          throw new UnprocessableEntityException(response.getStatusLine.toString)
+          throw new UnprocessableEntityException(s"status_line=${response.getStatusLine.toString}, responseJson=$responseJson")
         case n =>
           logger.error(s"url=$url, requestJson=$requestJson, status_line=${response.getStatusLine.toString}")
           throw new ResourceException(response.getStatusLine.toString)
@@ -180,7 +172,7 @@ trait BaseResource {
         case 422 /*Unprocessable Entity*/ =>
           val responseJson = Json.parse(response.getEntity.getContent)
           logger.error(s"url=$url, requestJson=$requestJson, status_line=${response.getStatusLine.toString}, responseJson=$responseJson")
-          throw new UnprocessableEntityException(response.getStatusLine.toString)
+          throw new UnprocessableEntityException(s"status_line=${response.getStatusLine.toString}, responseJson=$responseJson")
         case n =>
           logger.error(s"url=$url, requestJson=$requestJson, status_line=${response.getStatusLine.toString}")
           throw new ResourceException(response.getStatusLine.toString)
