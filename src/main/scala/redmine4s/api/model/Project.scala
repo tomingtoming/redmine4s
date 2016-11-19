@@ -39,7 +39,7 @@ sealed trait Project {
              homepage: Option[String] = None,
              isPublic: Option[Boolean] = None,
              parent: Option[Long] = None,
-             customField: Option[Seq[CustomFieldValue]] = None,
+             customField: Option[Seq[(Long, String)]] = None,
              inheritMembers: Option[Boolean] = None,
              trackers: Option[Seq[Long]] = None,
              issueCategories: Option[Seq[Long]] = None,
@@ -62,9 +62,9 @@ sealed trait Project {
 
   def listNews(): Iterable[News] = redmine.listNews(this.id)
 
-  def isOpen(): Boolean = this.status == Project.Status.Open
+  def isOpen: Boolean = this.status == Project.Status.Open
 
-  def isClosed(): Boolean = this.status == Project.Status.Closed
+  def isClosed: Boolean = this.status == Project.Status.Closed
 }
 
 trait ProjectDetail extends Project {

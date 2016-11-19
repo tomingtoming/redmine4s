@@ -59,29 +59,33 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
   implicit val projectReads: Reads[Project] = {
     projectDetail26Reads orElse projectDetail25Reads orElse projectSummaryReads
   }
-  implicit val projectCreateWrites = (
-    (__ \ 'project \ 'name).write[String] ~
-      (__ \ 'project \ 'identifier).write[String] ~
-      (__ \ 'project \ 'description).writeNullable[String] ~
-      (__ \ 'project \ 'homepage).writeNullable[String] ~
-      (__ \ 'project \ 'is_public).writeNullable[Boolean] ~
-      (__ \ 'project \ 'parent_id).writeNullable[Long] ~
-      (__ \ 'project \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
-      (__ \ 'project \ 'inherit_members).writeNullable[Boolean] ~
-      (__ \ 'project \ 'trackers_ids).writeNullable[Seq[Long]] ~
-      (__ \ 'project \ 'issue_categories).writeNullable[Seq[Long]] ~
-      (__ \ 'project \ 'enabled_modules).writeNullable[Seq[String]]
-    ).tupled
-  implicit val projectUpdateWrites = (
-    (__ \ 'project \ 'name).writeNullable[String] ~
-      (__ \ 'project \ 'description).writeNullable[String] ~
-      (__ \ 'project \ 'homepage).writeNullable[String] ~
-      (__ \ 'project \ 'is_public).writeNullable[Boolean] ~
-      (__ \ 'project \ 'parent_id).writeNullable[Long] ~
-      (__ \ 'project \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
-      (__ \ 'project \ 'inherit_members).writeNullable[Boolean] ~
-      (__ \ 'project \ 'trackers_ids).writeNullable[Seq[Long]] ~
-      (__ \ 'project \ 'issue_categories).writeNullable[Seq[Long]] ~
-      (__ \ 'project \ 'enabled_modules).writeNullable[Seq[String]]
-    ).tupled
+  implicit val projectCreateWrites = {
+    implicit val ivw = idValueWrites
+    (
+      (__ \ 'project \ 'name).write[String] ~
+        (__ \ 'project \ 'identifier).write[String] ~
+        (__ \ 'project \ 'description).writeNullable[String] ~
+        (__ \ 'project \ 'homepage).writeNullable[String] ~
+        (__ \ 'project \ 'is_public).writeNullable[Boolean] ~
+        (__ \ 'project \ 'parent_id).writeNullable[Long] ~
+        (__ \ 'project \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
+        (__ \ 'project \ 'inherit_members).writeNullable[Boolean] ~
+        (__ \ 'project \ 'trackers_ids).writeNullable[Seq[Long]] ~
+        (__ \ 'project \ 'issue_categories).writeNullable[Seq[Long]] ~
+        (__ \ 'project \ 'enabled_modules).writeNullable[Seq[String]]
+      ).tupled  }
+  implicit val projectUpdateWrites = {
+    implicit val ivw = idValueWrites
+    (
+      (__ \ 'project \ 'name).writeNullable[String] ~
+        (__ \ 'project \ 'description).writeNullable[String] ~
+        (__ \ 'project \ 'homepage).writeNullable[String] ~
+        (__ \ 'project \ 'is_public).writeNullable[Boolean] ~
+        (__ \ 'project \ 'parent_id).writeNullable[Long] ~
+        (__ \ 'project \ 'custom_fields).writeNullable[Seq[(Long, String)]] ~
+        (__ \ 'project \ 'inherit_members).writeNullable[Boolean] ~
+        (__ \ 'project \ 'trackers_ids).writeNullable[Seq[Long]] ~
+        (__ \ 'project \ 'issue_categories).writeNullable[Seq[Long]] ~
+        (__ \ 'project \ 'enabled_modules).writeNullable[Seq[String]]
+      ).tupled  }
 }

@@ -30,8 +30,4 @@ trait CustomFieldJsonHelper extends BaseJsonHelper {
       (__ \ 'name).read[String] ~
       (__ \ 'value).readNullable[String]
     ) (CustomFieldValue.apply _)
-  implicit val customFieldValueWrites: Writes[(Long, String)] = (
-    (__ \ 'id).write[Long] ~
-      (__ \ 'value).write[String]
-    ).tupled
 }
