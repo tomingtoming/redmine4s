@@ -7,13 +7,14 @@ import play.api.libs.json.Reads.pure
 import redmine4s.api.model._
 
 trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with VersionJsonHelper with ProjectMembershipJsonHelper with IssueCategoryJsonHelper {
+  implicit val projectStatusReads: Reads[ProjectStatus] = __.read[Int].map(ProjectStatus.fromInt)
   val projectSummaryReads: Reads[Project] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
       ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).read[Int] ~
+      (__ \ 'status).read[ProjectStatus] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
@@ -28,7 +29,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
       ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).read[Int] ~
+      (__ \ 'status).read[ProjectStatus] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
@@ -45,7 +46,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
       ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).read[Int] ~
+      (__ \ 'status).read[ProjectStatus] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
