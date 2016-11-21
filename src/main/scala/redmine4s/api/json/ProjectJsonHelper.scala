@@ -2,8 +2,8 @@ package redmine4s.api.json
 
 import org.joda.time.DateTime
 import play.api.libs.functional.syntax._
-import play.api.libs.json._
 import play.api.libs.json.Reads.pure
+import play.api.libs.json._
 import redmine4s.api.model._
 
 trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with VersionJsonHelper with ProjectMembershipJsonHelper with IssueCategoryJsonHelper {
@@ -19,7 +19,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       (__ \ 'identifier).read[String] ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
+      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue]))
     ) { (id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField) =>
     ProjectSummary(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, null)
   }
@@ -34,7 +34,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       (__ \ 'identifier).read[String] ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
+      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue])) ~
       (__ \ 'trackers).read[Seq[(Long, String)]] ~
       (__ \ 'issue_categories).read[Seq[(Long, String)]]
     ) { (id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField) =>
@@ -51,7 +51,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       (__ \ 'identifier).read[String] ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
+      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue])) ~
       (__ \ 'trackers).read[Seq[(Long, String)]] ~
       (__ \ 'issue_categories).read[Seq[(Long, String)]] ~
       (__ \ 'enabled_modules).read[Seq[String]]

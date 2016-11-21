@@ -12,7 +12,7 @@ case class User(id: Long,
                 createdOn: DateTime,
                 groups: Option[Seq[(Long, String)]],
                 memberships: Option[Seq[ProjectMembership]],
-                customField: Option[Seq[CustomFieldValue]],
+                customField: Seq[CustomFieldValue],
                 apiKey: Option[String],
                 status: Option[Int],
                 redmine: Redmine) {

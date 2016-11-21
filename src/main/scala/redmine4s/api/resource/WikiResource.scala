@@ -37,7 +37,7 @@ trait WikiResource extends BaseResource {
                  comments: Option[String] = None,
                  version: Option[Int] = None,
                  uploadFiles: Option[Seq[UploadFile]] = None): Wiki = {
-    import redmine4s.api.json.JsonHelper.{wikiUpdateWrites, wikiReads}
+    import redmine4s.api.json.JsonHelper.{wikiReads, wikiUpdateWrites}
     create(s"/projects/$projectId/wiki/$title.json", __ \ 'wiki_page, (text, comments, version, uploadFiles.map(_.map(redmine.upload))))
   }
 

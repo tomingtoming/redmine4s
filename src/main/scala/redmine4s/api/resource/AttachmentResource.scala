@@ -2,12 +2,11 @@ package redmine4s.api.resource
 
 import java.io.{ByteArrayOutputStream, InputStream}
 
-import play.api.libs.json._
 import org.apache.http.HttpEntity
 import org.apache.http.client.methods.{HttpGet, HttpPost}
 import org.apache.http.client.utils.HttpClientUtils
 import org.apache.http.entity.{ByteArrayEntity, InputStreamEntity}
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, _}
 import redmine4s.api.model.{Attachment, UploadFile, UploadedFile}
 
 /**

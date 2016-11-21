@@ -13,7 +13,7 @@ case class Version(id: Long,
                    sharing: Sharing,
                    createdOn: DateTime,
                    updatedOn: DateTime,
-                   customField: Option[Seq[CustomFieldValue]],
+                   customField: Seq[CustomFieldValue],
                    redmine: Redmine) {
   /** Returns the version of given id. */
   def show(): Version = redmine.showVersion(id)

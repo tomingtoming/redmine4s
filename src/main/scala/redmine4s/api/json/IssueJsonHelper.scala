@@ -2,6 +2,7 @@ package redmine4s.api.json
 
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.functional.syntax._
+import play.api.libs.json.Reads.pure
 import play.api.libs.json._
 import redmine4s.api.model._
 
@@ -42,7 +43,7 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
         (__ \ 'actual_due_date).readNullable[LocalDate](dateReads) ~
         (__ \ 'estimated_hours).readNullable[Double] ~
         (__ \ 'closed_on).readNullable[DateTime](timeReads) ~
-        (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
+        ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue])) ~
         (__ \ 'watchers).readNullable[Seq[(Long, String)]] ~
         (__ \ 'attachments).readNullable[Seq[Attachment]] ~
         (__ \ 'changesets).readNullable[Seq[ChangeSet]] ~
@@ -50,7 +51,7 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
         (__ \ 'children).readNullable[Seq[ChildIssue]] ~
         (__ \ 'relations).readNullable[Seq[IssueRelation]]
       ).tupled
-    (requiredFieldsReads ~ optionalFieldsReads) { (x: (Long, (Long, String), (Long, String), (Long, String), (Long, String), (Long, String), String, Int, DateTime, DateTime), y: (Option[Long], Option[String], Option[(Long, String)], Option[(Long, String)], Option[(Long, String)], Option[LocalDate], Option[LocalDate], Option[LocalDate], Option[LocalDate], Option[Double], Option[DateTime], Option[Seq[CustomFieldValue]], Option[Seq[(Long, String)]], Option[Seq[Attachment]], Option[Seq[ChangeSet]], Option[Seq[Journal]], Option[Seq[ChildIssue]], Option[Seq[IssueRelation]])) =>
+    (requiredFieldsReads ~ optionalFieldsReads) { (x: (Long, (Long, String), (Long, String), (Long, String), (Long, String), (Long, String), String, Int, DateTime, DateTime), y: (Option[Long], Option[String], Option[(Long, String)], Option[(Long, String)], Option[(Long, String)], Option[LocalDate], Option[LocalDate], Option[LocalDate], Option[LocalDate], Option[Double], Option[DateTime], Seq[CustomFieldValue], Option[Seq[(Long, String)]], Option[Seq[Attachment]], Option[Seq[ChangeSet]], Option[Seq[Journal]], Option[Seq[ChildIssue]], Option[Seq[IssueRelation]])) =>
       Issue(x._1, x._2, x._3, x._4, x._5, x._6, x._7, x._8, x._9, x._10, y._1, y._2, y._3, y._4, y._5, y._6, y._7, y._8, y._9, y._10, y._11, y._12, y._13, y._14, y._15, y._16, y._17, y._18, null)
     }
   }

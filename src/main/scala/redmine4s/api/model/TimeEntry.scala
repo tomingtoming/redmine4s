@@ -13,7 +13,7 @@ case class TimeEntry(id: Long,
                      spentOn: LocalDate,
                      createdOn: DateTime,
                      updatedOn: DateTime,
-                     customField: Option[Seq[CustomFieldValue]],
+                     customField: Seq[CustomFieldValue],
                      redmine: Redmine) {
   /** Updating a time entry */
   def updateToProject(projectId: Option[Long] = None,

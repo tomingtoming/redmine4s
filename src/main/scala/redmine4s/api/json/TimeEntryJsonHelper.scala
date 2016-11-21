@@ -2,6 +2,7 @@ package redmine4s.api.json
 
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.functional.syntax._
+import play.api.libs.json.Reads.pure
 import play.api.libs.json._
 import redmine4s.api.model.{CustomFieldValue, TimeEntry}
 
@@ -17,8 +18,8 @@ trait TimeEntryJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'spent_on).read[LocalDate](dateReads) ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]]
-    ) { (id: Long, project: (Long, String), issueId: Option[Long], user: (Long, String), activity: (Long, String), hours: Double, comments: String, spentOn: LocalDate, createdOn: DateTime, updatedOn: DateTime, customField: Option[Seq[CustomFieldValue]]) =>
+      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue]))
+    ) { (id: Long, project: (Long, String), issueId: Option[Long], user: (Long, String), activity: (Long, String), hours: Double, comments: String, spentOn: LocalDate, createdOn: DateTime, updatedOn: DateTime, customField: Seq[CustomFieldValue]) =>
     TimeEntry(id, project, issueId, user, activity, hours, comments, spentOn, createdOn, updatedOn, customField, null)
   }
   implicit val timeEntryCreateForProjectWrites = (

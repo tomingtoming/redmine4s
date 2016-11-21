@@ -1,8 +1,8 @@
 package redmine4s.api.json
 
 import play.api.libs.functional.syntax._
-import play.api.libs.json._
 import play.api.libs.json.Reads.pure
+import play.api.libs.json._
 import redmine4s.api.model.Query
 
 trait QueryJsonHelper extends BaseJsonHelper {

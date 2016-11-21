@@ -6,7 +6,7 @@ case class Group(id: Long,
                  name: String,
                  users: Option[Seq[(Long, String)]],
                  memberships: Option[Seq[ProjectMembership]],
-                 customField: Option[Seq[CustomFieldValue]],
+                 customField: Seq[CustomFieldValue],
                  redmine: Redmine) {
   /** Returns details of a group. */
   def show(): Group = redmine.showGroup(id)

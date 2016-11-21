@@ -24,7 +24,7 @@ trait BaseResource {
       private var (totalCount, fetchedTargets) = _list(offset)
 
       private def _list(offset: Int): (Int, Iterator[T]) = {
-        val requestParameter = (params + ("limit" -> limit, "offset" -> offset.toString)) map {
+        val requestParameter = (params +("limit" -> limit, "offset" -> offset.toString)) map {
           case (key, value) => key + "=" + value
         } mkString "&"
         val get = new HttpGet(configuration.baseUrl + url + "?" + requestParameter)

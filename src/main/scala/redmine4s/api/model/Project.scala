@@ -18,7 +18,7 @@ sealed trait Project {
   val createdOn: DateTime
   val updatedOn: DateTime
   val identifier: String
-  val customField: Option[Seq[CustomFieldValue]]
+  val customField: Seq[CustomFieldValue]
 
   /** Returns the project of given id or identifier. */
   def show(): Project = redmine.showProject(this.id)
@@ -68,7 +68,7 @@ case class ProjectSummary(id: Long,
                           createdOn: DateTime,
                           updatedOn: DateTime,
                           identifier: String,
-                          customField: Option[Seq[CustomFieldValue]],
+                          customField: Seq[CustomFieldValue],
                           redmine: Redmine) extends Project {
   protected val logger = LoggerFactory.getLogger(this.getClass)
 }
@@ -83,7 +83,7 @@ case class ProjectDetail25(id: Long,
                            createdOn: DateTime,
                            updatedOn: DateTime,
                            identifier: String,
-                           customField: Option[Seq[CustomFieldValue]],
+                           customField: Seq[CustomFieldValue],
                            trackers: Seq[(Long, String)],
                            issueCategories: Seq[(Long, String)],
                            redmine: Redmine) extends ProjectDetail {
@@ -100,7 +100,7 @@ case class ProjectDetail26(id: Long,
                            createdOn: DateTime,
                            updatedOn: DateTime,
                            identifier: String,
-                           customField: Option[Seq[CustomFieldValue]],
+                           customField: Seq[CustomFieldValue],
                            trackers: Seq[(Long, String)],
                            issueCategories: Seq[(Long, String)],
                            enabledModules: Seq[String],

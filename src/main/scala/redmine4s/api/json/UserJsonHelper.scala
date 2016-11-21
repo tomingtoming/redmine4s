@@ -2,6 +2,7 @@ package redmine4s.api.json
 
 import org.joda.time.DateTime
 import play.api.libs.functional.syntax._
+import play.api.libs.json.Reads.pure
 import play.api.libs.json._
 import redmine4s.api.model._
 
@@ -16,10 +17,10 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'groups).readNullable[Seq[(Long, String)]] ~
       (__ \ 'memberships).readNullable[Seq[ProjectMembership]] ~
-      (__ \ 'custom_fields).readNullable[Seq[CustomFieldValue]] ~
+      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue])) ~
       (__ \ 'api_key).readNullable[String] ~
       (__ \ 'status).readNullable[Int]
-    ) { (id: Long, login: String, lastname: String, firstname: String, mail: String, lastLoginOn: Option[DateTime], createdOn: DateTime, groups: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Option[Seq[CustomFieldValue]], apiKey: Option[String], status: Option[Int]) =>
+    ) { (id: Long, login: String, lastname: String, firstname: String, mail: String, lastLoginOn: Option[DateTime], createdOn: DateTime, groups: Option[Seq[(Long, String)]], memberships: Option[Seq[ProjectMembership]], customField: Seq[CustomFieldValue], apiKey: Option[String], status: Option[Int]) =>
     User(id, login, lastname, firstname, mail, lastLoginOn, createdOn, groups, memberships, customField, apiKey, status, null)
   }
   implicit val userCreateWrites = (
