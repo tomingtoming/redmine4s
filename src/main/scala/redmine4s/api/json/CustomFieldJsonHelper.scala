@@ -6,8 +6,8 @@ import play.api.libs.json._
 import redmine4s.api.model._
 
 trait CustomFieldJsonHelper extends BaseJsonHelper {
-  implicit val customizedTypeReads: Reads[CustomizedType] = __.read[String].map(CustomizedType.fromString)
-  implicit val fieldFormatReads: Reads[FieldFormat] = __.read[String].map(FieldFormat.fromString)
+  implicit val customizedTypeReads: Reads[CustomizedType] = __.read[String].map(CustomizedType.fromApiExpr)
+  implicit val fieldFormatReads: Reads[FieldFormat] = __.read[String].map(FieldFormat.fromApiExpr)
   implicit val labelValueReads: Reads[(String, String)] = (
     (__ \ 'label).read[String] ~
       (__ \ 'value).read[String]

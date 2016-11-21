@@ -19,29 +19,29 @@ case class CustomFieldValue(id: Long, name: String, value: Option[String])
 
 object CustomizedType {
 
-  object Document extends CustomizedType("document")
+  object Document extends CustomizedType("document", "DocumentCustomField")
 
-  object DocumentCategory extends CustomizedType("document_category")
+  object DocumentCategory extends CustomizedType("document_category", "DocumentCategoryCustomField")
 
-  object Group extends CustomizedType("group")
+  object Group extends CustomizedType("group", "GroupCustomField")
 
-  object Issue extends CustomizedType("issue")
+  object Issue extends CustomizedType("issue", "IssueCustomField")
 
-  object IssuePriority extends CustomizedType("issue_priority")
+  object IssuePriority extends CustomizedType("issue_priority", "IssuePriorityCustomField")
 
-  object Project extends CustomizedType("project")
+  object Project extends CustomizedType("project", "ProjectCustomField")
 
-  object TimeEntry extends CustomizedType("time_entry")
+  object TimeEntry extends CustomizedType("time_entry", "TimeEntryActivityCustomField")
 
-  object TimeEntryActivity extends CustomizedType("time_entry_activity")
+  object TimeEntryActivity extends CustomizedType("time_entry_activity", "TimeEntryCustomField")
 
-  object User extends CustomizedType("user")
+  object User extends CustomizedType("user", "UserCustomField")
 
-  object Version extends CustomizedType("version")
+  object Version extends CustomizedType("version", "VersionCustomField")
 
   val values: Seq[CustomizedType] = Seq(Document, DocumentCategory, Group, Issue, IssuePriority, Project, TimeEntry, TimeEntryActivity, User, Version)
 
-  def fromString(expr: String): CustomizedType = expr match {
+  def fromApiExpr(expr: String): CustomizedType = expr match {
     case "document" => Document
     case "document_category" => DocumentCategory
     case "group" => Group
@@ -55,7 +55,7 @@ object CustomizedType {
   }
 }
 
-sealed abstract class CustomizedType(val expr: String)
+sealed abstract class CustomizedType(val apiExpr: String, val dbExpr: String)
 
 object FieldFormat {
 
@@ -83,7 +83,7 @@ object FieldFormat {
 
   val values: Seq[FieldFormat] = Seq(Enumeration, String, Version, User, List, Link, Float, Int, Date, Bool, Text)
 
-  def fromString(expr: String): FieldFormat = expr match {
+  def fromApiExpr(expr: String): FieldFormat = expr match {
     case "enumeration" => Enumeration
     case "string" => String
     case "version" => Version
