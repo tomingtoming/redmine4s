@@ -26,9 +26,10 @@ trait UserResource extends BaseResource {
                  mail: String,
                  authSourceId: Option[Long] = None,
                  mailNotification: Option[String] = None,
-                 mustChangePasswd: Option[Boolean] = None): User = {
+                 mustChangePasswd: Option[Boolean] = None,
+                 customFields: Option[Seq[(Long, String)]] = None): User = {
     import redmine4s.api.json.JsonHelper.{userCreateWrites, userReads}
-    applyRedmineToUser(create("/users.json", __ \ 'user, (login, password, firstname, lastname, mail, authSourceId, mailNotification, mustChangePasswd)))
+    applyRedmineToUser(create("/users.json", __ \ 'user, (login, password, firstname, lastname, mail, authSourceId, mailNotification, mustChangePasswd, customFields)))
   }
 
   /** Returns the user details. */
@@ -46,9 +47,10 @@ trait UserResource extends BaseResource {
                  mail: Option[String] = None,
                  authSourceId: Option[Long] = None,
                  mailNotification: Option[String] = None,
-                 mustChangePasswd: Option[Boolean] = None): User = {
+                 mustChangePasswd: Option[Boolean] = None,
+                 customFields: Option[Seq[(Long, String)]] = None): User = {
     import redmine4s.api.json.JsonHelper.{userReads, userUpdateWrites}
-    create(s"/users/$userId.json", __ \ 'user, (login, password, firstname, lastname, mail, authSourceId, mailNotification, mustChangePasswd))
+    create(s"/users/$userId.json", __ \ 'user, (login, password, firstname, lastname, mail, authSourceId, mailNotification, mustChangePasswd, customFields))
     showUser(userId)
   }
 

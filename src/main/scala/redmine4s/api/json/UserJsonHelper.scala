@@ -30,7 +30,8 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
       (__ \ 'user \ 'mail).write[String] ~
       (__ \ 'user \ 'auth_source_id).writeNullable[Long] ~
       (__ \ 'user \ 'mail_notification).writeNullable[String] ~
-      (__ \ 'user \ 'must_change_passwd).writeNullable[Boolean]
+      (__ \ 'user \ 'must_change_passwd).writeNullable[Boolean] ~
+      (__ \ 'user \ 'custom_fields).writeNullable[Seq[(Long, String)]]
     ).tupled
   implicit val userUpdateWrites = (
     (__ \ 'user \ 'login).writeNullable[String] ~
@@ -40,6 +41,7 @@ trait UserJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHel
       (__ \ 'user \ 'mail).writeNullable[String] ~
       (__ \ 'user \ 'auth_source_id).writeNullable[Long] ~
       (__ \ 'user \ 'mail_notification).writeNullable[String] ~
-      (__ \ 'user \ 'must_change_passwd).writeNullable[Boolean]
+      (__ \ 'user \ 'must_change_passwd).writeNullable[Boolean] ~
+      (__ \ 'user \ 'custom_fields).writeNullable[Seq[(Long, String)]]
     ).tupled
 }

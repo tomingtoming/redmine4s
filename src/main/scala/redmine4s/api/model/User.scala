@@ -27,7 +27,8 @@ case class User(id: Long,
              mail: Option[String] = None,
              authSourceId: Option[Long] = None,
              mailNotification: Option[String] = None,
-             mustChangePasswd: Option[Boolean] = None): User = redmine.updateUser(id, login, password, firstname, lastname, mail, authSourceId, mailNotification, mustChangePasswd)
+             mustChangePasswd: Option[Boolean] = None,
+             customFields: Option[Seq[(Long, String)]] = None): User = redmine.updateUser(id, login, password, firstname, lastname, mail, authSourceId, mailNotification, mustChangePasswd, customFields)
 
   /** Deletes a user. */
   def delete(): Unit = redmine.deleteUser(id)

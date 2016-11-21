@@ -13,7 +13,8 @@ case class Group(id: Long,
 
   /** Updates an existing group. */
   def update(name: Option[String] = None,
-             ids: Option[Seq[Long]] = None): Group = redmine.updateGroup(id, name, ids)
+             ids: Option[Seq[Long]] = None,
+             customFields: Option[Seq[(Long, String)]] = None): Group = redmine.updateGroup(id, name, ids)
 
   /** Deletes an existing group. */
   def delete(): Unit = redmine.deleteGroup(id)

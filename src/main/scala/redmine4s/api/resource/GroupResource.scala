@@ -19,9 +19,9 @@ trait GroupResource extends BaseResource {
   }
 
   /** Creates a group. */
-  def createGroup(name: String, ids: Option[Seq[Long]] = None): Group = {
+  def createGroup(name: String, ids: Option[Seq[Long]] = None, customFields: Option[Seq[(Long, String)]] = None): Group = {
     import redmine4s.api.json.JsonHelper.{groupCreateWrites, groupReads}
-    applyRedmineToGroup(create("/groups.json", __ \ 'group, (name, ids)))
+    applyRedmineToGroup(create("/groups.json", __ \ 'group, (name, ids, customFields)))
   }
 
   /** Returns details of a group. */
@@ -31,9 +31,9 @@ trait GroupResource extends BaseResource {
   }
 
   /** Updates an existing group. */
-  def updateGroup(groupId: Long, name: Option[String] = None, ids: Option[Seq[Long]] = None): Group = {
+  def updateGroup(groupId: Long, name: Option[String] = None, ids: Option[Seq[Long]] = None, customFields: Option[Seq[(Long, String)]] = None): Group = {
     import redmine4s.api.json.JsonHelper.groupUpdateWrites
-    update(s"/groups/$groupId.json", (name, ids))
+    update(s"/groups/$groupId.json", (name, ids, customFields))
     showGroup(groupId)
   }
 
