@@ -125,7 +125,7 @@ object ProjectStatus {
     override val isClosed: Boolean = false
   }
 
-  def fromInt(intExpr: Int): ProjectStatus = intExpr match {
+  def fromInt(expr: Int): ProjectStatus = expr match {
     case 1 => Open
     case 5 => Closed
     case 9 => Archived
@@ -133,7 +133,7 @@ object ProjectStatus {
   }
 }
 
-sealed abstract class ProjectStatus(val intExpr: Int) {
+sealed abstract class ProjectStatus(val expr: Int) {
   val isOpen: Boolean
   val isClosed: Boolean
 }
