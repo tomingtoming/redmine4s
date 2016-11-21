@@ -23,7 +23,8 @@ case class Version(id: Long,
              status: Option[Status] = None,
              sharing: Option[Sharing] = None,
              dueDate: Option[LocalDate] = None,
-             description: Option[String] = None): Version = redmine.updateVersion(id, name, status, sharing, dueDate, description)
+             description: Option[String] = None,
+             customFields: Option[Seq[(Long, String)]] = None): Version = redmine.updateVersion(id, name, status, sharing, dueDate, description)
 
   /** Deletes the version of given id. */
   def delete(): Unit = redmine.deleteVersion(id)

@@ -29,13 +29,15 @@ trait VersionJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'version \ 'status).writeNullable[Status] ~
       (__ \ 'version \ 'sharing).writeNullable[Sharing] ~
       (__ \ 'version \ 'due_date).writeNullable[LocalDate](dateWrites) ~
-      (__ \ 'version \ 'description).writeNullable[String]
+      (__ \ 'version \ 'description).writeNullable[String] ~
+      (__ \ 'version \ 'custom_fields).writeNullable[Seq[(Long, String)]]
     ).tupled
   implicit val versionUpdateWrites = (
     (__ \ 'version \ 'name).writeNullable[String] ~
       (__ \ 'version \ 'status).writeNullable[Status] ~
       (__ \ 'version \ 'sharing).writeNullable[Sharing] ~
       (__ \ 'version \ 'due_date).writeNullable[LocalDate](dateWrites) ~
-      (__ \ 'version \ 'description).writeNullable[String]
+      (__ \ 'version \ 'description).writeNullable[String] ~
+      (__ \ 'version \ 'custom_fields).writeNullable[Seq[(Long, String)]]
     ).tupled
 }

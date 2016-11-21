@@ -20,14 +20,16 @@ case class TimeEntry(id: Long,
                       spentOn: Option[LocalDate] = None,
                       hours: Option[Double] = None,
                       activityId: Option[Long] = None,
-                      comments: Option[String] = None): TimeEntry = redmine.updateTimeEntryToProject(id, projectId, spentOn, hours, activityId, comments)
+                      comments: Option[String] = None,
+                      customFields: Option[Seq[(Long, String)]] = None): TimeEntry = redmine.updateTimeEntryToProject(id, projectId, spentOn, hours, activityId, comments)
 
   /** Updating a time entry */
   def updateToIssue(issueId: Option[Long] = None,
                     spentOn: Option[LocalDate] = None,
                     hours: Option[Double] = None,
                     activityId: Option[Long] = None,
-                    comments: Option[String] = None): TimeEntry = redmine.updateTimeEntryToIssue(id, issueId, spentOn, hours, activityId, comments)
+                    comments: Option[String] = None,
+                    customFields: Option[Seq[(Long, String)]] = None): TimeEntry = redmine.updateTimeEntryToIssue(id, issueId, spentOn, hours, activityId, comments)
 
   /** Deleting a time entry */
   def delete(): Unit = redmine.deleteTimeEntry(id)

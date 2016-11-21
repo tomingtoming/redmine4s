@@ -24,9 +24,10 @@ trait VersionResource extends BaseResource {
                     status: Option[Status] = None,
                     sharing: Option[Sharing] = None,
                     dueDate: Option[LocalDate] = None,
-                    description: Option[String] = None): Version = {
+                    description: Option[String] = None,
+                    customFields: Option[Seq[(Long, String)]] = None): Version = {
     import redmine4s.api.json.JsonHelper.{versionCreateWrites, versionReads}
-    create(s"/projects/$projectId/versions.json", __ \ 'version, (name, status, sharing, dueDate, description)).copy(redmine = redmine)
+    create(s"/projects/$projectId/versions.json", __ \ 'version, (name, status, sharing, dueDate, description, customFields)).copy(redmine = redmine)
   }
 
   /** Returns the version of given id. */
@@ -41,9 +42,10 @@ trait VersionResource extends BaseResource {
                     status: Option[Status] = None,
                     sharing: Option[Sharing] = None,
                     dueDate: Option[LocalDate] = None,
-                    description: Option[String] = None): Version = {
+                    description: Option[String] = None,
+                    customFields: Option[Seq[(Long, String)]] = None): Version = {
     import redmine4s.api.json.JsonHelper.versionUpdateWrites
-    update(s"/versions/$versionId.json", (name, status, sharing, dueDate, description))
+    update(s"/versions/$versionId.json", (name, status, sharing, dueDate, description, customFields))
     showVersion(versionId)
   }
 

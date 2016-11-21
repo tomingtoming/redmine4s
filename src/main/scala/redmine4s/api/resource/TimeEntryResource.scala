@@ -30,9 +30,10 @@ trait TimeEntryResource extends BaseResource {
                                spentOn: LocalDate = LocalDate.now(),
                                hours: Double,
                                activityId: Long,
-                               comments: String = ""): TimeEntry = {
+                               comments: String = "",
+                               customFields: Option[Seq[(Long, String)]] = None): TimeEntry = {
     import redmine4s.api.json.JsonHelper.{timeEntryCreateForProjectWrites, timeEntryReads}
-    applyRedmineToTimeEntry(create("/time_entries.json", __ \ 'time_entry, (projectId, spentOn, hours, activityId, comments)))
+    applyRedmineToTimeEntry(create("/time_entries.json", __ \ 'time_entry, (projectId, spentOn, hours, activityId, comments, customFields)))
   }
 
   /** Creating a time entry */
@@ -40,9 +41,10 @@ trait TimeEntryResource extends BaseResource {
                              spentOn: LocalDate = LocalDate.now(),
                              hours: Double,
                              activityId: Long,
-                             comments: String = ""): TimeEntry = {
+                             comments: String = "",
+                             customFields: Option[Seq[(Long, String)]] = None): TimeEntry = {
     import redmine4s.api.json.JsonHelper.{timeEntryCreateForIssueWrites, timeEntryReads}
-    applyRedmineToTimeEntry(create("/time_entries.json", __ \ 'time_entry, (issueId, spentOn, hours, activityId, comments)))
+    applyRedmineToTimeEntry(create("/time_entries.json", __ \ 'time_entry, (issueId, spentOn, hours, activityId, comments, customFields)))
   }
 
   /** Updating a time entry */
@@ -51,9 +53,10 @@ trait TimeEntryResource extends BaseResource {
                                spentOn: Option[LocalDate] = None,
                                hours: Option[Double] = None,
                                activityId: Option[Long] = None,
-                               comments: Option[String] = None): TimeEntry = {
+                               comments: Option[String] = None,
+                               customFields: Option[Seq[(Long, String)]] = None): TimeEntry = {
     import redmine4s.api.json.JsonHelper.timeEntryUpdateForProjectWrites
-    update(s"/time_entries/$timeEntryId.json", (projectId, spentOn, hours, activityId, comments))
+    update(s"/time_entries/$timeEntryId.json", (projectId, spentOn, hours, activityId, comments, customFields))
     showTimeEntry(timeEntryId)
   }
 
@@ -63,9 +66,10 @@ trait TimeEntryResource extends BaseResource {
                              spentOn: Option[LocalDate] = None,
                              hours: Option[Double] = None,
                              activityId: Option[Long] = None,
-                             comments: Option[String] = None): TimeEntry = {
+                             comments: Option[String] = None,
+                             customFields: Option[Seq[(Long, String)]] = None): TimeEntry = {
     import redmine4s.api.json.JsonHelper.timeEntryUpdateForIssueWrites
-    update(s"/time_entries/$timeEntryId.json", (issueId, spentOn, hours, activityId, comments))
+    update(s"/time_entries/$timeEntryId.json", (issueId, spentOn, hours, activityId, comments, customFields))
     showTimeEntry(timeEntryId)
   }
 
