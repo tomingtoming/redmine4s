@@ -13,7 +13,7 @@ sealed trait Project {
   val description: Option[String]
   val homepage: Option[String]
   val isPublic: Boolean
-  val status: ProjectStatus
+  val status: Option[ProjectStatus]
   val parent: Option[(Long, String)]
   val createdOn: DateTime
   val updatedOn: DateTime
@@ -63,7 +63,7 @@ case class ProjectSummary(id: Long,
                           description: Option[String],
                           homepage: Option[String],
                           isPublic: Boolean,
-                          status: ProjectStatus,
+                          status: Option[ProjectStatus],
                           parent: Option[(Long, String)],
                           createdOn: DateTime,
                           updatedOn: DateTime,
@@ -78,7 +78,7 @@ case class ProjectDetail25(id: Long,
                            description: Option[String],
                            homepage: Option[String],
                            isPublic: Boolean,
-                           status: ProjectStatus,
+                           status: Option[ProjectStatus],
                            parent: Option[(Long, String)],
                            createdOn: DateTime,
                            updatedOn: DateTime,
@@ -95,7 +95,7 @@ case class ProjectDetail26(id: Long,
                            description: Option[String],
                            homepage: Option[String],
                            isPublic: Boolean,
-                           status: ProjectStatus,
+                           status: Option[ProjectStatus],
                            parent: Option[(Long, String)],
                            createdOn: DateTime,
                            updatedOn: DateTime,

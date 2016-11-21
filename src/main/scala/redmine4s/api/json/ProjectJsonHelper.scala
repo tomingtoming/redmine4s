@@ -14,7 +14,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
       ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).read[ProjectStatus] ~
+      (__ \ 'status).readNullable[ProjectStatus] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
@@ -29,7 +29,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
       ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).read[ProjectStatus] ~
+      (__ \ 'status).readNullable[ProjectStatus] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
@@ -46,7 +46,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'description).readNullable[String] ~
       (__ \ 'homepage).readNullable[String] ~
       ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).read[ProjectStatus] ~
+      (__ \ 'status).readNullable[ProjectStatus] ~
       (__ \ 'parent).readNullable[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
