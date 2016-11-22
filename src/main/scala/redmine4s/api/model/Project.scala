@@ -1,24 +1,25 @@
 package redmine4s.api.model
 
 import org.joda.time.DateTime
-import org.slf4j.{Logger, LoggerFactory}
+import org.slf4j.LoggerFactory
 import redmine4s.Redmine
 
-sealed trait Project {
-  protected val logger: Logger
-  protected val redmine: Redmine
-
-  val id: Long
-  val name: String
-  val description: Option[String]
-  val homepage: Option[String]
-  val isPublic: Boolean
-  val status: Option[ProjectStatus]
-  val parent: Option[(Long, String)]
-  val createdOn: DateTime
-  val updatedOn: DateTime
-  val identifier: String
-  val customField: Seq[CustomFieldValue]
+case class Project(id: Long,
+              name: String,
+              description: Option[String],
+              homepage: Option[String],
+              isPublic: Boolean,
+              status: Option[ProjectStatus],
+              parent: Option[(Long, String)],
+              createdOn: DateTime,
+              updatedOn: DateTime,
+              identifier: String,
+              customField: Seq[CustomFieldValue],
+              trackers: Option[Seq[(Long, String)]],
+              issueCategories: Option[Seq[(Long, String)]],
+              enabledModules: Option[Seq[String]],
+              redmine: Redmine) {
+  protected val logger = LoggerFactory.getLogger(this.getClass)
 
   /** Returns the project of given id or identifier. */
   def show(): Project = redmine.showProject(this.id)
@@ -51,61 +52,6 @@ sealed trait Project {
   def indexWikis(): Iterable[WikiIndex] = redmine.indexWikis(this.id)
 
   def listNews(): Iterable[News] = redmine.listNews(this.id)
-}
-
-trait ProjectDetail extends Project {
-  val trackers: Seq[(Long, String)]
-  val issueCategories: Seq[(Long, String)]
-}
-
-case class ProjectSummary(id: Long,
-                          name: String,
-                          description: Option[String],
-                          homepage: Option[String],
-                          isPublic: Boolean,
-                          status: Option[ProjectStatus],
-                          parent: Option[(Long, String)],
-                          createdOn: DateTime,
-                          updatedOn: DateTime,
-                          identifier: String,
-                          customField: Seq[CustomFieldValue],
-                          redmine: Redmine) extends Project {
-  protected val logger = LoggerFactory.getLogger(this.getClass)
-}
-
-case class ProjectDetail25(id: Long,
-                           name: String,
-                           description: Option[String],
-                           homepage: Option[String],
-                           isPublic: Boolean,
-                           status: Option[ProjectStatus],
-                           parent: Option[(Long, String)],
-                           createdOn: DateTime,
-                           updatedOn: DateTime,
-                           identifier: String,
-                           customField: Seq[CustomFieldValue],
-                           trackers: Seq[(Long, String)],
-                           issueCategories: Seq[(Long, String)],
-                           redmine: Redmine) extends ProjectDetail {
-  protected val logger = LoggerFactory.getLogger(this.getClass)
-}
-
-case class ProjectDetail26(id: Long,
-                           name: String,
-                           description: Option[String],
-                           homepage: Option[String],
-                           isPublic: Boolean,
-                           status: Option[ProjectStatus],
-                           parent: Option[(Long, String)],
-                           createdOn: DateTime,
-                           updatedOn: DateTime,
-                           identifier: String,
-                           customField: Seq[CustomFieldValue],
-                           trackers: Seq[(Long, String)],
-                           issueCategories: Seq[(Long, String)],
-                           enabledModules: Seq[String],
-                           redmine: Redmine) extends ProjectDetail {
-  protected val logger = LoggerFactory.getLogger(this.getClass)
 }
 
 object ProjectStatus {

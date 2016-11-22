@@ -8,22 +8,7 @@ import redmine4s.api.model._
 
 trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with VersionJsonHelper with ProjectMembershipJsonHelper with IssueCategoryJsonHelper {
   implicit val projectStatusReads: Reads[ProjectStatus] = __.read[Int].map(ProjectStatus.fromInt)
-  val projectSummaryReads: Reads[Project] = (
-    (__ \ 'id).read[Long] ~
-      (__ \ 'name).read[String] ~
-      (__ \ 'description).readNullable[String] ~
-      (__ \ 'homepage).readNullable[String] ~
-      ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).readNullable[ProjectStatus] ~
-      (__ \ 'parent).readNullable[(Long, String)] ~
-      (__ \ 'created_on).read[DateTime](timeReads) ~
-      (__ \ 'updated_on).read[DateTime](timeReads) ~
-      (__ \ 'identifier).read[String] ~
-      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue]))
-    ) { (id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField) =>
-    ProjectSummary(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, null)
-  }
-  val projectDetail25Reads: Reads[Project] = (
+  implicit val projectReads: Reads[Project] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~
       (__ \ 'description).readNullable[String] ~
@@ -35,31 +20,11 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       (__ \ 'identifier).read[String] ~
       ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue])) ~
-      (__ \ 'trackers).read[Seq[(Long, String)]] ~
-      (__ \ 'issue_categories).read[Seq[(Long, String)]]
-    ) { (id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField) =>
-    ProjectDetail25(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, trackers, issueCategories, customField, null)
-  }
-  val projectDetail26Reads: Reads[Project] = (
-    (__ \ 'id).read[Long] ~
-      (__ \ 'name).read[String] ~
-      (__ \ 'description).readNullable[String] ~
-      (__ \ 'homepage).readNullable[String] ~
-      ((__ \ 'is_public).read[Boolean] or pure(false)) ~
-      (__ \ 'status).readNullable[ProjectStatus] ~
-      (__ \ 'parent).readNullable[(Long, String)] ~
-      (__ \ 'created_on).read[DateTime](timeReads) ~
-      (__ \ 'updated_on).read[DateTime](timeReads) ~
-      (__ \ 'identifier).read[String] ~
-      ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue])) ~
-      (__ \ 'trackers).read[Seq[(Long, String)]] ~
-      (__ \ 'issue_categories).read[Seq[(Long, String)]] ~
-      (__ \ 'enabled_modules).read[Seq[String]]
+      (__ \ 'trackers).readNullable[Seq[(Long, String)]] ~
+      (__ \ 'issue_categories).readNullable[Seq[(Long, String)]] ~
+      (__ \ 'enabled_modules).readNullable[Seq[String]]
     ) { (id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules) =>
-    ProjectDetail26(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules, null)
-  }
-  implicit val projectReads: Reads[Project] = {
-    projectDetail26Reads orElse projectDetail25Reads orElse projectSummaryReads
+    Project(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules, null)
   }
   implicit val projectCreateWrites = (
     (__ \ 'project \ 'name).write[String] ~

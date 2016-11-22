@@ -8,11 +8,7 @@ import redmine4s.api.model._
   * http://www.redmine.org/projects/redmine/wiki/Rest_Projects
   */
 trait ProjectResource extends BaseResource {
-  private def applyRedmineToProject: PartialFunction[Project, Project] = {
-    case p: ProjectSummary => p.copy(redmine = redmine)
-    case p: ProjectDetail25 => p.copy(redmine = redmine)
-    case p: ProjectDetail26 => p.copy(redmine = redmine)
-  }
+  private def applyRedmineToProject(p: Project) = p.copy(redmine = redmine)
 
   /** Returns all projects (all public projects and private projects where user have access to) */
   def listProjects(): Iterable[Project] = {
