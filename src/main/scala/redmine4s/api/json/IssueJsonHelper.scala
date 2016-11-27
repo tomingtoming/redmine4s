@@ -16,7 +16,8 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
   implicit val childIssueReads: Reads[ChildIssue] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'tracker).read[(Long, String)] ~
-      (__ \ 'subject).read[String]
+      (__ \ 'subject).read[String] ~
+      ((__ \ 'children).lazyRead[Seq[ChildIssue]](Reads.seq(childIssueReads)) or pure(Seq.empty[ChildIssue]))
     ) (ChildIssue.apply _)
   implicit val issueReads: Reads[Issue] = {
     val requiredFieldsReads = (

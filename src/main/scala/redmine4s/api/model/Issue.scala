@@ -60,4 +60,4 @@ case class Issue(id: Long,
   def delete(): Unit = redmine.deleteIssue(this.id)
 }
 
-case class ChildIssue(id: Long, tracker: (Long, String), subject: String)
+case class ChildIssue(id: Long, tracker: (Long, String), subject: String, children: Seq[ChildIssue])
