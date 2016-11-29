@@ -1,6 +1,6 @@
 name := "redmine4s"
 
-version := "0.1"
+version := "0.9.0-SNAPSHOT"
 
 scalaVersion := "2.11.8"
 
