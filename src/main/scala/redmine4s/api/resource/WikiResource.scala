@@ -44,12 +44,10 @@ trait WikiResource extends BaseResource {
   /** Deleting a wiki page */
   def deleteWiki(projectId: Long, title: String): Unit = delete(s"/projects/$projectId/wiki/$title.json")
 
-  /** UNDOCUMENTED IN OFFICIAL: Getting a main wiki page title */
-  def mainWikiTitle(projectId: Long): Option[String] = {
-    try {
-      Some(show[String](s"/projects/$projectId/wiki.json", __ \ "wiki_page" \ "title", Map("include" -> "attachments")))
-    } catch {
-      case e: NotFoundException => None
-    }
+  /** UNDOCUMENTED IN OFFICIAL: Getting a main wiki page */
+  def showMainWiki(projectId: Long): Wiki = {
+    import redmine4s.api.json.JsonHelper.wikiReads
+    val wiki = show[Wiki](s"/projects/$projectId/wiki.json", __ \ "wiki_page", Map("include" -> "attachments"))
+    wiki.copy(projectId = projectId, redmine = redmine, attachments = wiki.attachments.map(_.map(_.copy(redmine = redmine))))
   }
 }

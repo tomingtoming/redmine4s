@@ -47,7 +47,7 @@ case class Project(id: Long,
 
   def listIssueCategories: Iterable[IssueCategory] = redmine.listIssueCategories(this.id)
 
-  def mainWikiTitle(): Option[String] = redmine.mainWikiTitle(this.id)
+  def showMainWiki(): Wiki = redmine.showMainWiki(this.id)
 
   def indexWikis(): Iterable[WikiIndex] = redmine.indexWikis(this.id)
 
