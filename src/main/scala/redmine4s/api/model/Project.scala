@@ -2,24 +2,29 @@ package redmine4s.api.model
 
 import org.joda.time.DateTime
 import org.slf4j.LoggerFactory
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
 case class Project(id: Long,
-              name: String,
-              description: Option[String],
-              homepage: Option[String],
-              isPublic: Boolean,
-              status: Option[ProjectStatus],
-              parent: Option[(Long, String)],
-              createdOn: DateTime,
-              updatedOn: DateTime,
-              identifier: String,
-              customField: Seq[CustomFieldValue],
-              trackers: Option[Seq[(Long, String)]],
-              issueCategories: Option[Seq[(Long, String)]],
-              enabledModules: Option[Seq[String]],
-              redmine: Redmine) {
-  protected val logger = LoggerFactory.getLogger(this.getClass)
+                   name: String,
+                   description: Option[String],
+                   homepage: Option[String],
+                   isPublic: Boolean,
+                   status: Option[ProjectStatus],
+                   parent: Option[(Long, String)],
+                   createdOn: DateTime,
+                   updatedOn: DateTime,
+                   identifier: String,
+                   customField: Seq[CustomFieldValue],
+                   trackers: Option[Seq[(Long, String)]],
+                   issueCategories: Option[Seq[(Long, String)]],
+                   enabledModules: Option[Seq[String]],
+                   jsValue: JsValue,
+                   redmine: Redmine) extends RedmineModelBase[Project] {
+
+  override def setRedmine(redmine: Redmine): Project = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): Project = this.copy(jsValue = jsValue)
 
   /** Returns the project of given id or identifier. */
   def show(): Project = redmine.showProject(this.id)

@@ -1,6 +1,7 @@
 package redmine4s.api.model
 
 import org.joda.time.DateTime
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
 case class User(id: Long,
@@ -15,7 +16,13 @@ case class User(id: Long,
                 customField: Seq[CustomFieldValue],
                 apiKey: Option[String],
                 status: Option[Int],
-                redmine: Redmine) {
+                jsValue: JsValue,
+                redmine: Redmine) extends RedmineModelBase[User] {
+
+  override def setRedmine(redmine: Redmine): User = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): User = this.copy(jsValue = jsValue)
+
   /** Returns the user details. */
   def show(): User = redmine.showUser(id)
 

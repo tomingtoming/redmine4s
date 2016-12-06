@@ -19,8 +19,8 @@ trait TimeEntryJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue]))
-    ) { (id: Long, project: (Long, String), issueId: Option[Long], user: (Long, String), activity: (Long, String), hours: Double, comments: String, spentOn: LocalDate, createdOn: DateTime, updatedOn: DateTime, customField: Seq[CustomFieldValue]) =>
-    TimeEntry(id, project, issueId, user, activity, hours, comments, spentOn, createdOn, updatedOn, customField, null)
+    ) { (id, project, issueId, user, activity, hours, comments, spentOn, createdOn, updatedOn, customField) =>
+    TimeEntry(id, project, issueId, user, activity, hours, comments, spentOn, createdOn, updatedOn, customField, null, null)
   }
   implicit val timeEntryCreateForProjectWrites = (
     (__ \ 'time_entry \ 'project_id).write[Long] ~

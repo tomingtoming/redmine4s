@@ -1,6 +1,7 @@
 package redmine4s.api.model
 
 import org.joda.time.{DateTime, LocalDate}
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
 case class TimeEntry(id: Long,
@@ -14,7 +15,13 @@ case class TimeEntry(id: Long,
                      createdOn: DateTime,
                      updatedOn: DateTime,
                      customField: Seq[CustomFieldValue],
-                     redmine: Redmine) {
+                     jsValue: JsValue,
+                     redmine: Redmine) extends RedmineModelBase[TimeEntry] {
+
+  override def setRedmine(redmine: Redmine): TimeEntry = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): TimeEntry = this.copy(jsValue = jsValue)
+
   /** Updating a time entry */
   def updateToProject(projectId: Option[Long] = None,
                       spentOn: Option[LocalDate] = None,

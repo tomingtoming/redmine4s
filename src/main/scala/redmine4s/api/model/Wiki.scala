@@ -1,11 +1,40 @@
 package redmine4s.api.model
 
 import org.joda.time.DateTime
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
-case class WikiIndex(title: String, parent: Option[String], version: Int, createdOn: DateTime, updatedOn: DateTime, projectId: Long, redmine: Redmine) extends WikiBase
+case class WikiIndex(title: String,
+                     parent: Option[String],
+                     version: Int,
+                     createdOn: DateTime,
+                     updatedOn: DateTime,
+                     projectId: Long,
+                     jsValue: JsValue,
+                     redmine: Redmine) extends WikiBase with RedmineModelBase[WikiIndex] {
 
-case class Wiki(title: String, parent: Option[String], version: Int, createdOn: DateTime, updatedOn: DateTime, text: String, author: (Long, String), comments: String, attachments: Option[Seq[Attachment]], projectId: Long, redmine: Redmine) extends WikiBase
+  override def setRedmine(redmine: Redmine): WikiIndex = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): WikiIndex = this.copy(jsValue = jsValue)
+}
+
+case class Wiki(title: String,
+                parent: Option[String],
+                version: Int,
+                createdOn: DateTime,
+                updatedOn: DateTime,
+                text: String,
+                author: (Long, String),
+                comments: String,
+                attachments: Option[Seq[Attachment]],
+                projectId: Long,
+                jsValue: JsValue,
+                redmine: Redmine) extends WikiBase with RedmineModelBase[Wiki] {
+
+  override def setRedmine(redmine: Redmine): Wiki = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): Wiki = this.copy(jsValue = jsValue)
+}
 
 sealed trait WikiBase {
   val projectId: Long

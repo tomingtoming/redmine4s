@@ -11,5 +11,7 @@ trait IssueStatusJsonHelper extends BaseJsonHelper {
       (__ \ 'name).read[String] ~
       ((__ \ 'is_default).read[Boolean] or pure(false)) ~
       ((__ \ 'is_closed).read[Boolean] or pure(false))
-    ) (IssueStatus.apply _)
+    ) { (id, name, isDefault, isClosed) =>
+    IssueStatus(id, name, isDefault, isClosed, null, null)
+  }
 }

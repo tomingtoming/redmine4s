@@ -10,7 +10,9 @@ trait IssueCategoryJsonHelper extends BaseJsonHelper {
       (__ \ 'project).read[(Long, String)] ~
       (__ \ 'name).read[String] ~
       (__ \ 'assigned_to).readNullable[(Long, String)]
-    ) (IssueCategory.apply _)
+    ) { (id, project, name, assignedTo) =>
+    IssueCategory(id, project, name, assignedTo, null, null)
+  }
   implicit val issueCategoryCreateWrites = (
     (__ \ 'name).write[String] ~
       (__ \ 'assigned_to).writeNullable[Long]

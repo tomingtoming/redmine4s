@@ -22,8 +22,8 @@ trait VersionJsonHelper extends CustomFieldJsonHelper {
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads) ~
       ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue]))
-    ) { (id: Long, project: (Long, String), name: String, description: String, dueDate: Option[LocalDate], status: Status, sharing: Sharing, createdOn: DateTime, updatedOn: DateTime, customField: Seq[CustomFieldValue]) =>
-    Version(id, project, name, description, dueDate, status, sharing, createdOn, updatedOn, customField, null)
+    ) { (id, project, name, description, dueDate, status, sharing, createdOn, updatedOn, customField) =>
+    Version(id, project, name, description, dueDate, status, sharing, createdOn, updatedOn, customField, null, null)
   }
   implicit val versionCreateWrites = (
     (__ \ 'version \ 'name).write[String] ~

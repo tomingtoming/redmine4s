@@ -12,7 +12,7 @@ trait ProjectMembershipJsonHelper extends RoleJsonHelper {
       (__ \ 'group).readNullable[(Long, String)] ~
       (__ \ 'roles).read[Iterable[Role]]
     ) { (id: Long, project: (Long, String), user: Option[(Long, String)], group: Option[(Long, String)], roles: Iterable[Role]) =>
-    ProjectMembership(id, project, user, group, roles, null)
+    ProjectMembership(id, project, user, group, roles, null, null)
   }
   implicit val projectMembershipCreateWrites = (
     (__ \ 'membership \ 'user_id).write[Long] ~

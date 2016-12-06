@@ -27,7 +27,9 @@ trait CustomFieldJsonHelper extends BaseJsonHelper {
       (__ \ 'default_value).readNullable[String] ~
       (__ \ 'visible).read[Boolean] ~
       (__ \ 'possibleValues).readNullable[Seq[(String, String)]]
-    ) (CustomField.apply _)
+    ) { (id, name, customizedType, fieldFormat, regexp, minLength, maxLength, isRequired, isFilter, searchable, multiple, defaultValue, visible, possibleValues) =>
+    CustomField(id, name, customizedType, fieldFormat, regexp, minLength, maxLength, isRequired, isFilter, searchable, multiple, defaultValue, visible, possibleValues, null, null)
+  }
   implicit val customFieldValueReads: Reads[CustomFieldValue] = (
     (__ \ 'id).read[Long] ~
       (__ \ 'name).read[String] ~

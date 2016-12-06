@@ -16,7 +16,7 @@ trait AttachmentJsonHelper extends BaseJsonHelper {
       (__ \ 'author).read[(Long, String)] ~
       (__ \ 'created_on).read[DateTime](timeReads)
     ) { (id, fileName, fileSize, contentType, description, contentUrl, author, createdOn) =>
-    Attachment(id, fileName, fileSize, contentType, description, contentUrl, author, createdOn, null)
+    Attachment(id, fileName, fileSize, contentType, description, contentUrl, author, createdOn, null, null)
   }
   implicit val uploadedFileWrites = (
     (__ \ 'filename).write[String] ~

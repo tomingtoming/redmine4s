@@ -13,7 +13,9 @@ trait IssueRelationJsonHelper extends BaseJsonHelper {
       (__ \ 'issue_to_id).read[Long] ~
       (__ \ 'relation_type).read[RelationType] ~
       (__ \ 'delay).readNullable[Int]
-    ) (IssueRelation.apply _)
+    ) { (id, issueId, issueToId, relationType, delay) =>
+    IssueRelation(id, issueId, issueToId, relationType, delay, null, null)
+  }
   implicit val issueRelationCreateWrites = (
     (__ \ 'issue_to_id).write[Long] ~
       (__ \ 'relation_type).write[RelationType] ~

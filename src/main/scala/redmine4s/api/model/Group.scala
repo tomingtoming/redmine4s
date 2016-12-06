@@ -1,5 +1,6 @@
 package redmine4s.api.model
 
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
 case class Group(id: Long,
@@ -7,7 +8,13 @@ case class Group(id: Long,
                  users: Option[Seq[(Long, String)]],
                  memberships: Option[Seq[ProjectMembership]],
                  customField: Seq[CustomFieldValue],
-                 redmine: Redmine) {
+                 jsValue: JsValue,
+                 redmine: Redmine) extends RedmineModelBase[Group] {
+
+  override def setRedmine(redmine: Redmine): Group = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): Group = this.copy(jsValue = jsValue)
+
   /** Returns details of a group. */
   def show(): Group = redmine.showGroup(id)
 

@@ -7,6 +7,7 @@ import org.apache.http.entity.{ContentType, StringEntity}
 import org.slf4j.Logger
 import play.api.libs.json._
 import redmine4s.Redmine
+import redmine4s.api.model.RedmineModelBase
 import redmine4s.auth.Authorization
 import redmine4s.conf.Configuration
 
@@ -17,14 +18,14 @@ trait BaseResource {
   protected val httpClient: HttpClient = configuration.httpClient
   protected val authorization: Option[Authorization] = Authorization.fromConfiguration(configuration)
 
-  protected def list[T](url: String, targetJsPath: JsPath, params: Map[String, String])(implicit fjs: Reads[T]): Iterator[T] = {
+  protected def list[T <: RedmineModelBase[T]](url: String, targetJsPath: JsPath, params: Map[String, String])(implicit fjs: Reads[T]): Iterator[T] = {
     new Iterator[T] {
       private val limit = 100
       private var offset = 0
       private var (totalCount, fetchedTargets) = _list(offset)
 
       private def _list(offset: Int): (Int, Iterator[T]) = {
-        val requestParameter = (params +("limit" -> limit, "offset" -> offset.toString)) map {
+        val requestParameter = (params + ("limit" -> limit, "offset" -> offset.toString)) map {
           case (key, value) => key + "=" + value
         } mkString "&"
         val get = new HttpGet(configuration.baseUrl + url + "?" + requestParameter)
@@ -36,7 +37,9 @@ trait BaseResource {
               val responseJson = Json.parse(response.getEntity.getContent)
               logger.debug(s"url=$url, responseJson=$responseJson")
               val totalCount = (responseJson \ "total_count").asOpt[Int].getOrElse(0)
-              targetJsPath.read[Iterator[T]].reads(responseJson).asEither match {
+              targetJsPath.read[Iterator[T]].reads(responseJson).map { t =>
+                t.map(_.setRedmine(redmine).setJsValue(responseJson))
+              }.asEither match {
                 case Left(errors) => throw JsResultException(errors)
                 case Right(targets) => (totalCount, targets)
               }
@@ -68,7 +71,7 @@ trait BaseResource {
     }
   }
 
-  protected def show[T](url: String, targetJsPath: JsPath, params: Map[String, String] = Map.empty)(implicit fjs: Reads[T]): T = {
+  protected def show[T <: RedmineModelBase[T]](url: String, targetJsPath: JsPath, params: Map[String, String] = Map.empty)(implicit fjs: Reads[T]): T = {
     val requestParameter = params map {
       case (key, value) => key + "=" + value
     } mkString "&"
@@ -80,7 +83,9 @@ trait BaseResource {
         case 200 =>
           val responseJson = Json.parse(response.getEntity.getContent)
           logger.debug(s"url=$url, responseJson=$responseJson")
-          targetJsPath.read[T].reads(responseJson).asEither match {
+          targetJsPath.read[T].reads(responseJson).map { t =>
+            t.setRedmine(redmine).setJsValue(responseJson)
+          }.asEither match {
             case Left(errors) => throw JsResultException(errors)
             case Right(target) => target
           }

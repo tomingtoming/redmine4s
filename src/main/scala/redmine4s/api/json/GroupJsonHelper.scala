@@ -13,7 +13,7 @@ trait GroupJsonHelper extends CustomFieldJsonHelper with ProjectMembershipJsonHe
       (__ \ 'memberships).readNullable[Seq[ProjectMembership]] ~
       ((__ \ 'custom_fields).read[Seq[CustomFieldValue]] or pure(Seq.empty[CustomFieldValue]))
     ) { (id, name, users, memberships, customField) =>
-    Group(id, name, users, memberships, customField, null)
+    Group(id, name, users, memberships, customField, null, null)
   }
   implicit val groupCreateWrites = (
     (__ \ 'group \ 'name).write[String] ~

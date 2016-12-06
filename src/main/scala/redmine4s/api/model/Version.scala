@@ -1,6 +1,7 @@
 package redmine4s.api.model
 
 import org.joda.time.{DateTime, LocalDate}
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 import redmine4s.api.resource.ResourceException
 
@@ -14,7 +15,13 @@ case class Version(id: Long,
                    createdOn: DateTime,
                    updatedOn: DateTime,
                    customField: Seq[CustomFieldValue],
-                   redmine: Redmine) {
+                   jsValue: JsValue,
+                   redmine: Redmine) extends RedmineModelBase[Version] {
+
+  override def setRedmine(redmine: Redmine): Version = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): Version = this.copy(jsValue = jsValue)
+
   /** Returns the version of given id. */
   def show(): Version = redmine.showVersion(id)
 

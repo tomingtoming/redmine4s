@@ -24,7 +24,7 @@ trait ProjectJsonHelper extends RoleJsonHelper with CustomFieldJsonHelper with V
       (__ \ 'issue_categories).readNullable[Seq[(Long, String)]] ~
       (__ \ 'enabled_modules).readNullable[Seq[String]]
     ) { (id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules) =>
-    Project(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules, null)
+    Project(id, name, description, homepage, isPublic, status, parent, createdOn, updatedOn, identifier, customField, trackers, issueCategories, enabledModules, null, null)
   }
   implicit val projectCreateWrites = (
     (__ \ 'project \ 'name).write[String] ~

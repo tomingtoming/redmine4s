@@ -1,6 +1,20 @@
 package redmine4s.api.model
 
-case class IssueRelation(id: Long, issueId: Long, issueToId: Long, relationType: RelationType, delay: Option[Int])
+import play.api.libs.json.JsValue
+import redmine4s.Redmine
+
+case class IssueRelation(id: Long,
+                         issueId: Long,
+                         issueToId: Long,
+                         relationType: RelationType,
+                         delay: Option[Int],
+                         jsValue: JsValue,
+                         redmine: Redmine) extends RedmineModelBase[IssueRelation] {
+
+  override def setRedmine(redmine: Redmine): IssueRelation = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): IssueRelation = this.copy(jsValue = jsValue)
+}
 
 object RelationType {
 

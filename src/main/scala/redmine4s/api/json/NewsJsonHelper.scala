@@ -14,5 +14,7 @@ trait NewsJsonHelper extends BaseJsonHelper {
       (__ \ 'summary).read[String] ~
       (__ \ 'description).read[String] ~
       (__ \ 'created_on).read[DateTime](timeReads)
-    ) (News.apply _)
+    ) { (id, project, author, title, summary, description, createdOn) =>
+    News(id, project, author, title, summary, description, createdOn, null, null)
+  }
 }

@@ -1,6 +1,7 @@
 package redmine4s.api.model
 
 import org.joda.time.{DateTime, LocalDate}
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
 case class Issue(id: Long,
@@ -31,7 +32,13 @@ case class Issue(id: Long,
                  journals: Option[Seq[Journal]],
                  children: Option[Seq[ChildIssue]],
                  relations: Option[Seq[IssueRelation]],
-                 redmine: Redmine) {
+                 jsValue: JsValue,
+                 redmine: Redmine) extends RedmineModelBase[Issue] {
+
+  override def setRedmine(redmine: Redmine): Issue = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): Issue = this.copy(jsValue = jsValue)
+
   def show: Issue = redmine.showIssue(this.id)
 
   def update(subject: Option[String] = None,

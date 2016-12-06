@@ -1,8 +1,19 @@
 package redmine4s.api.model
 
+import play.api.libs.json.JsValue
 import redmine4s.Redmine
 
-case class Role(id: Long, name: String, inherited: Option[Boolean], permissions: Option[Iterable[Permission]], redmine: Redmine) {
+case class Role(id: Long,
+                name: String,
+                inherited: Option[Boolean],
+                permissions: Option[Iterable[Permission]],
+                jsValue: JsValue,
+                redmine: Redmine) extends RedmineModelBase[Role] {
+
+  override def setRedmine(redmine: Redmine): Role = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): Role = this.copy(jsValue = jsValue)
+
   /** Returns the list of permissions for a given role. */
   def show(): Role = redmine.showRole(id)
 }

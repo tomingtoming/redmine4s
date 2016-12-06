@@ -11,5 +11,7 @@ trait RoleJsonHelper extends BaseJsonHelper {
       (__ \ 'name).read[String] ~
       (__ \ 'inherited).readNullable[Boolean] ~
       (__ \ 'permissions).readNullable[Iterable[Permission]]
-    ) { (id, name, inherited, permissions) => Role(id, name, inherited, permissions, null) }
+    ) { (id, name, inherited, permissions) =>
+    Role(id, name, inherited, permissions, null, null)
+  }
 }

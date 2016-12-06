@@ -1,5 +1,8 @@
 package redmine4s.api.model
 
+import play.api.libs.json.JsValue
+import redmine4s.Redmine
+
 case class CustomField(id: Long,
                        name: String,
                        customizedType: CustomizedType,
@@ -13,7 +16,13 @@ case class CustomField(id: Long,
                        multiple: Boolean,
                        defaultValue: Option[String],
                        visible: Boolean,
-                       possibleValues: Option[Seq[(String, String)]])
+                       possibleValues: Option[Seq[(String, String)]],
+                       jsValue: JsValue,
+                       redmine: Redmine) extends RedmineModelBase[CustomField] {
+  override def setRedmine(redmine: Redmine): CustomField = this.copy(redmine = redmine)
+
+  override def setJsValue(jsValue: JsValue): CustomField = this.copy(jsValue = jsValue)
+}
 
 case class CustomFieldValue(id: Long, name: String, value: Option[String])
 

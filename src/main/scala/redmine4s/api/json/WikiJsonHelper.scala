@@ -13,7 +13,7 @@ trait WikiJsonHelper extends AttachmentJsonHelper {
       (__ \ 'created_on).read[DateTime](timeReads) ~
       (__ \ 'updated_on).read[DateTime](timeReads)
     ) { (title, parent, version, createdOn, updatedOn) =>
-    WikiIndex(title, parent, version, createdOn, updatedOn, 0L, null)
+    WikiIndex(title, parent, version, createdOn, updatedOn, 0L, null, null)
   }
   implicit val wikiReads: Reads[Wiki] = (
     (__ \ 'title).read[String] ~
@@ -26,7 +26,7 @@ trait WikiJsonHelper extends AttachmentJsonHelper {
       (__ \ 'comments).read[String] ~
       (__ \ 'attachments).readNullable[Seq[Attachment]]
     ) { (title, parent, version, createdOn, updatedOn, text, author, comments, attachments) =>
-    Wiki(title, parent, version, createdOn, updatedOn, text, author, comments, attachments, 0L, null)
+    Wiki(title, parent, version, createdOn, updatedOn, text, author, comments, attachments, 0L, null, null)
   }
   implicit val wikiUpdateWrites = (
     (__ \ 'wiki_page \ 'text).writeNullable[String] ~
