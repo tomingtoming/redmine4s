@@ -52,7 +52,7 @@ trait IssueJsonHelper extends AttachmentJsonHelper with CustomFieldJsonHelper wi
         (__ \ 'children).readNullable[Seq[ChildIssue]] ~
         (__ \ 'relations).readNullable[Seq[IssueRelation]]
       ).tupled
-    (requiredFieldsReads ~ optionalFieldsReads) { (x: (Long, (Long, String), (Long, String), (Long, String), (Long, String), (Long, String), String, Int, DateTime, DateTime), y: (Option[Long], Option[String], Option[(Long, String)], Option[(Long, String)], Option[(Long, String)], Option[LocalDate], Option[LocalDate], Option[LocalDate], Option[LocalDate], Option[Double], Option[DateTime], Seq[CustomFieldValue], Option[Seq[(Long, String)]], Option[Seq[Attachment]], Option[Seq[ChangeSet]], Option[Seq[Journal]], Option[Seq[ChildIssue]], Option[Seq[IssueRelation]])) =>
+    (requiredFieldsReads ~ optionalFieldsReads) { (x, y) =>
       Issue(x._1, x._2, x._3, x._4, x._5, x._6, x._7, x._8, x._9, x._10, y._1, y._2, y._3, y._4, y._5, y._6, y._7, y._8, y._9, y._10, y._11, y._12, y._13, y._14, y._15, y._16, y._17, y._18, null)
     }
   }
